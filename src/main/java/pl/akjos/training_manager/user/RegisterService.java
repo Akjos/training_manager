@@ -50,9 +50,9 @@ public class RegisterService {
 
     public List<String> getDepartmentList() {
         List<Department> departmentList = departmentRepository.findAll();
-        List<String> departmentNameList = departmentList.stream().
-                map(e -> e.getName()).
+
+        return departmentList.stream().
+                map(Department::getName).
                 collect(Collectors.toList());
-        return departmentNameList;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Main page</title>
@@ -10,8 +10,18 @@
 </div>
 <h1>Home Page</h1>
 <h2>Data to Login:</h2>
-<p>Login admin: admin  Password: pass</p>
-<p>Login manager: manager  Password: pass</p>
-<p>Login leader: hrLead  Password: pass</p>
+<p>Login admin: admin Password: pass</p>
+<p>Login manager: manager Password: pass</p>
+<p>Login leader: hrLead Password: pass</p>
+
+<form sec:authorize="!isAuthenticated()" th:action method="post">
+    <label>Username:<br>
+        <input type="text" name="username"/>
+    </label><br>
+    <label> Password:<br>
+        <input type="password" name="password"/>
+    </label><br>
+    <input type="submit" value="Sign In"/>
+</form>
 </body>
 </html>
