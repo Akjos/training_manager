@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="mainMenu">
+    <div sec:authorize="isAuthenticated()">
+        <p><a th:href="@{/}">Home</a></p>
+        <p><a th:href="@{/user/register}">Register</a></p>
+        <p><a th:href="@{/user/list}">Show Users</a></p>
+        <p sec:authorize="hasAnyRole('ADMIN', 'MANAGER')"><a th:href="@{/department}">Department</a></p>
+        <div>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

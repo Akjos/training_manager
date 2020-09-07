@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+<div>
+    <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
+</div>
+<h1>Register</h1>
+<form action="#" th:action="@{/user/register}" th:object="${user}" method="post">
+    User name: <input type="text" th:field="*{username}"/><br>
+    Email: <input type="text" th:field="*{email}"/><br>
+    Password: <input type="text" th:field="*{password}"/><br>
+    <div sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+        Position:<br>
+        <select th:field="*{role}">
+            <option sec:authorize="hasRole('ADMIN')" th:value="ROLE_MANAGER" th:text="Manager"></option>
+            <option sec:authorize="hasAnyRole('ADMIN', 'MANAGER')" th:value="ROLE_TEAM_LEADER" th:text="TeamLeader"></option>
+            <option th:value="ROLE_WORKER" th:text="Worker"></option>
+        </select>
+    </div>
+    <br>
+    <div sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+        Department:<br>
+        <select th:field="*{department}">
+            <option sec:authorize="hasRole('ADMIN')" th:value="manager" th:text="Manager"/>
+            <option th:each="departmentName: ${departmentList}" th:text="${departmentName}" th:value="${departmentName}"/>
+        </select>
+    </div>
+    <br>
+    <input type="submit">
+</form>
+</body>
+</html>
