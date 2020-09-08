@@ -10,9 +10,9 @@
 </div>
 <h1>Register</h1>
 <form action="#" th:action="@{/user/register}" th:object="${user}" method="post">
-    User name: <input type="text" th:field="*{username}"/><br>
-    Email: <input type="text" th:field="*{email}"/><br>
-    Password: <input type="text" th:field="*{password}"/><br>
+    User name: <input type="text" th:field="*{username}"/><p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"/><br>
+    Email: <input type="text" th:field="*{email}"/><p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/><br>
+    Password: <input type="text" th:field="*{password}"/><p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/><br>
     <div sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
         Position:<br>
         <select th:field="*{role}">
@@ -28,6 +28,7 @@
             <option sec:authorize="hasRole('ADMIN')" th:value="manager" th:text="Manager"/>
             <option th:each="departmentName: ${departmentList}" th:text="${departmentName}" th:value="${departmentName}"/>
         </select>
+        <p th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></p>
     </div>
     <br>
     <input type="submit">
