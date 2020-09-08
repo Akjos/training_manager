@@ -27,12 +27,18 @@ public class TrainingController {
 
     @PostMapping("/manage/add")
     public String addTraining(@ModelAttribute("training") @Valid TrainingDTO trainingDTO, BindingResult bindingResult, Model model) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("departmentList", trainingService.getDepartmentList());
             return "/training/manage/addTraining";
         }
         trainingService.saveToDb(trainingDTO);
         return "redirect:/";
+    }
+
+    @GetMapping("/manage/list")
+    public String prepareTrainingList(Model model) {
+        model.addAttribute("trainingList", trainingService.getTrainingList());
+        return "/training/manage/list";
     }
 
 }

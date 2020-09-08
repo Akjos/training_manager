@@ -58,4 +58,34 @@ public class TrainingService {
     private Department getDepartmentByName(String name) {
         return departmentRepository.getByName(name);
     }
+
+    public List<TrainingDTO> getTrainingList() {
+        User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
+        if (loggedUser.getDepartment() == null) {
+            return trainingRepository.findAll().stream()
+                    .map(this::convertTrainingToDTO)
+                    .collect(Collectors.toList());
+        } else {
+            return trainingRepository.getTrainingsByDepartments(loggedUser.getDepartment())
+                    .stream()
+                    .map(this::convertTrainingToDTO)
+                    .collect(Collectors.toList());
+        }
+    }
+
+    private TrainingDTO convertTrainingToDTO(Training t) {
+        TrainingDTO trainingDTO = new TrainingDTO();
+        trainingDTO.setId(t.getId());
+        trainingDTO.setTitle(t.getTitle());
+        trainingDTO.setDescription(t.getDescription());
+        trainingDTO.setPrice(t.getPrice());
+        trainingDTO.setQuantityAvailable(t.getQuantityAvailable());
+        trainingDTO.setTrainingDays(t.getTrainingDays());
+        trainingDTO.setDataStart(t.getDataStart());
+        List<String> departmentNameList = t.getDepartments().stream()
+                .map(e -> e.getName())
+                .collect(Collectors.toList());
+        trainingDTO.setDepartment(departmentNameList);
+        return trainingDTO;
+    }
 }

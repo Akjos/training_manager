@@ -10,6 +10,8 @@ import java.util.List;
 
 @Data
 public class TrainingDTO {
+
+    private Long id;
     @NotEmpty
     private String title;
 
