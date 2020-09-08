@@ -16,7 +16,7 @@ import pl.akjos.training_manager.domain.repositories.UserRepository;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class setDataToStartProgram implements ApplicationRunner {
+public class SetDataToStartProgram implements ApplicationRunner {
 
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;

@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Data
-class RegisterDataDTO {
+class UserRegisterDTO {
 
     @NotEmpty
     @Size(min = 3, max = 25)

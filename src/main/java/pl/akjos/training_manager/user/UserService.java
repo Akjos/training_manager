@@ -17,14 +17,14 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class RegisterService {
+public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
 
-    public void registerNewUserToDB(RegisterDataDTO userData) {
+    public void registerNewUserToDB(UserRegisterDTO userData) {
         String userRole = SecurityUtils.getUserRole();
         User user = new User();
         if (userRole.equals("ROLE_TEAM_LEADER")) {
@@ -48,11 +48,32 @@ public class RegisterService {
         userRepository.save(user);
     }
 
+    //to wykopać do jakiejś fasady department używam tego conajmniej w 2 miejscach ?
     public List<String> getDepartmentList() {
         List<Department> departmentList = departmentRepository.findAll();
-
         return departmentList.stream().
                 map(Department::getName).
                 collect(Collectors.toList());
     }
+
+    public List<UserViewDTO> getUserList() {
+        List<User> userList = userRepository.findAll();
+        return userList.stream().
+                map(this::convertUserToUserDTO).
+                collect(Collectors.toList());
+
+    }
+
+    private UserViewDTO convertUserToUserDTO(User e) {
+        log.debug("User: {}", e);
+        UserViewDTO userDTO = new UserViewDTO();
+        userDTO.setUsername(e.getUsername());
+        userDTO.setEmail(e.getEmail());
+        userDTO.setRole(e.getRole().getName());
+        if (e.getDepartment() != null) {
+            userDTO.setDepartment(e.getDepartment().getName());
+        }
+        return userDTO;
+    }
+
 }

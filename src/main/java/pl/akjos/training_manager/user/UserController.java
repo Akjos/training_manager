@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.akjos.training_manager.domain.repositories.UserRepository;
 import pl.akjos.training_manager.utils.SecurityUtils;
 
 import javax.validation.Valid;
@@ -21,34 +20,32 @@ import java.util.List;
 @Slf4j
 public class UserController {
 
-    private final UserRepository userRepository;
-
-    private final RegisterService registerService;
+    private final UserService userService;
 
     @GetMapping("/list")
     public String showUserList(Model model) {
-        model.addAttribute("userList", userRepository.findAll());
+        model.addAttribute("userList", userService.getUserList());
         return "/user/list";
     }
 
     @GetMapping("/register")
     public String prepareRegisterForm(Model model) {
-        model.addAttribute("user", new RegisterDataDTO());
-        List<String> departmentList = registerService.getDepartmentList();
+        model.addAttribute("user", new UserRegisterDTO());
+        List<String> departmentList = userService.getDepartmentList();
         model.addAttribute("departmentList", departmentList);
         return "/user/register";
     }
 
     @PostMapping("/register")
-    public String prepareRegisterForm(@ModelAttribute("user") @Valid RegisterDataDTO user, BindingResult bindingResult, Model model) {
+    public String prepareRegisterForm(@ModelAttribute("user") @Valid UserRegisterDTO user, BindingResult bindingResult, Model model) {
         if (SecurityUtils.getUserRole().equals("ROLE_MANAGER") && user.getDepartment() == null) {
             bindingResult.rejectValue("department", "error.department", "This field can't by empty");
         }
         if (bindingResult.hasErrors()) {
-            model.addAttribute("departmentList", registerService.getDepartmentList());
+            model.addAttribute("departmentList", userService.getDepartmentList());
             return "/user/register";
         }
-        registerService.registerNewUserToDB(user);
+        userService.registerNewUserToDB(user);
         return "redirect:/user/list";
     }
 

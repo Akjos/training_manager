@@ -43,6 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/list").authenticated()
                 .antMatchers("/user/register").hasAnyRole("TEAM_LEADER", "MANAGER", "ADMIN")
                 .antMatchers("/department/**").hasAnyRole("MANAGER", "ADMIN")
+                .antMatchers("/training/**").hasAnyRole("TEAM_LEADER", "MANAGER", "ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/")
