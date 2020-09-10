@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Disable training proposition</title>
+</head>
+<body>
+<h1>Disable training proposition</h1>
+<form th:action="@{/training/manage/disable}" th:object="${training}" th:method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <span th:text="'Title: ' +  *{title}"></span><br>
+    <span th:text="'Description: ' +  *{description}"></span><br>
+    <span th:text="'Starting date:' +  *{dataStart}"></span><br>
+    <span>Departments: </span><br>
+    <span th:each="dep: ${training.department}">
+    <span th:text="'-' + ${dep}"></span><br>
+    </span>
+    <label>
+        <input th:value="Yes" th:type="submit"/>
+    </label>
+</form>
+<a th:href="@{/training/manage/list}">
+    <button>No</button>
+</a>
+</body>
+</html>
