@@ -69,7 +69,7 @@ public class TrainingService {
                     collect(Collectors.toList());
             training.setDepartments(departmentList);
         }
-        convertTrainingDTOToDb(trainingDTO,training);
+        convertTrainingDTOToDb(trainingDTO, training);
         log.debug("Update new training: {} department: {}", training, training.getDepartments());
         trainingRepository.save(training);
     }
@@ -81,11 +81,11 @@ public class TrainingService {
     public List<TrainingDTO> getTrainingList() {
         User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
         if (loggedUser.getDepartment() == null) {
-            return trainingRepository.findAll().stream()
+            return trainingRepository.getAllByActiveTrue().stream()
                     .map(this::convertTrainingToDTO)
                     .collect(Collectors.toList());
         } else {
-            return trainingRepository.getTrainingsByDepartments(loggedUser.getDepartment())
+            return trainingRepository.getTrainingsByDepartmentsAndActiveTrue(loggedUser.getDepartment())
                     .stream()
                     .map(this::convertTrainingToDTO)
                     .collect(Collectors.toList());
@@ -111,5 +111,15 @@ public class TrainingService {
     public TrainingDTO getTrainingById(Long id) {
         Optional<Training> training = trainingRepository.findById(id);
         return training.map(this::convertTrainingToDTO).orElse(null);
+    }
+
+    public void disable(Long id) {
+        System.out.println(id + "id !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+        Optional<Training> trainingOptional = trainingRepository.findById(id);
+        if (trainingOptional.isPresent()) {
+            Training training = trainingOptional.get();
+            training.setActive(false);
+            trainingRepository.save(training);
+        }
     }
 }

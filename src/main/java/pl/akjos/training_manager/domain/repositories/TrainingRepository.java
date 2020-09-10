@@ -7,5 +7,6 @@ import pl.akjos.training_manager.domain.model.Training;
 import java.util.List;
 
 public interface TrainingRepository extends JpaRepository<Training, Long> {
-    List<Training> getTrainingsByDepartments(Department department);
+    List<Training> getTrainingsByDepartmentsAndActiveTrue(Department department);
+    List<Training> getAllByActiveTrue();
 }

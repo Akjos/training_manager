@@ -54,4 +54,18 @@ public class TrainingController {
         trainingService.updateTrainingToDb(trainingDTO);
         return "redirect:/training/manage/list";
     }
+
+    @GetMapping("/manage/disable/{id}")
+    public String confirmDisableTraining(@PathVariable("id") Long id, Model model) {
+        TrainingDTO training = trainingService.getTrainingById(id);
+        model.addAttribute("training", training);
+        return "/training/manage/disable";
+    }
+
+    @PostMapping("/manage/disable")
+    public String disableTraining(TrainingDTO training) {
+        trainingService.disable(training.getId());
+        return "redirect:/training/manage/list";
+    }
+
 }

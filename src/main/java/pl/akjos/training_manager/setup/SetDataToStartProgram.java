@@ -6,14 +6,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import pl.akjos.training_manager.domain.model.Department;
-import pl.akjos.training_manager.domain.model.Role;
-import pl.akjos.training_manager.domain.model.Training;
-import pl.akjos.training_manager.domain.model.User;
-import pl.akjos.training_manager.domain.repositories.DepartmentRepository;
-import pl.akjos.training_manager.domain.repositories.RoleRepository;
-import pl.akjos.training_manager.domain.repositories.TrainingRepository;
-import pl.akjos.training_manager.domain.repositories.UserRepository;
+import pl.akjos.training_manager.domain.model.*;
+import pl.akjos.training_manager.domain.repositories.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,6 +22,7 @@ public class SetDataToStartProgram implements ApplicationRunner {
     private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
     private final TrainingRepository trainingRepository;
+    private final UserTrainingRepository userTrainingRepository;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -37,6 +32,42 @@ public class SetDataToStartProgram implements ApplicationRunner {
         setDepartmentInDb();
         setUserInDb();
         setTrainingInDb();
+        setUserTrainingInDb();
+    }
+
+    private void setUserTrainingInDb() {
+
+        UserTraining userTraining = new UserTraining();
+        userTraining.setUserId(4L);
+        userTraining.setTrainingId(1L);
+        userTraining.setAcceptByManager(false);
+        userTraining.setAcceptByTeamLeader(false);
+        userTraining.setDenied(false);
+        userTrainingRepository.save(userTraining);
+
+        UserTraining userTraining2 = new UserTraining();
+        userTraining2.setUserId(4L);
+        userTraining2.setTrainingId(2L);
+        userTraining2.setAcceptByManager(false);
+        userTraining2.setAcceptByTeamLeader(false);
+        userTraining2.setDenied(false);
+        userTrainingRepository.save(userTraining2);
+
+        UserTraining userTraining3 = new UserTraining();
+        userTraining3.setUserId(3L);
+        userTraining3.setTrainingId(1L);
+        userTraining3.setAcceptByManager(false);
+        userTraining3.setAcceptByTeamLeader(false);
+        userTraining3.setDenied(false);
+        userTrainingRepository.save(userTraining3);
+
+        UserTraining userTraining4 = new UserTraining();
+        userTraining4.setUserId(2L);
+        userTraining4.setTrainingId(2L);
+        userTraining4.setAcceptByManager(false);
+        userTraining4.setAcceptByTeamLeader(false);
+        userTraining4.setDenied(false);
+        userTrainingRepository.save(userTraining4);
     }
 
     private void setTrainingInDb() {
