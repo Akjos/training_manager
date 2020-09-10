@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Training List</title>
+</head>
+<body>
+<div>
+    <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
+</div>
+<h1>Training list</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>Title</th>
+        <th>Start of</th>
+        <th>Price</th>
+        <th>Training Days</th>
+        <th>Quantity</th>
+        <th>Option</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="training, iter : ${trainingList}">
+        <td th:text="${iter.count}"></td>
+        <td th:text="*{training.title}"></td>
+        <td th:text="*{training.dataStart}"></td>
+        <td th:text="*{training.price}"></td>
+        <td th:text="*{training.trainingDays}"></td>
+        <td th:text="*{training.quantityAvailable}"></td>
+        <td>
+            <div>
+                <a th:href="@{/training/manage/edit/{id} (id=*{training.id})}">
+                    <button>Edit</button>
+                </a>
+            </div>
+            <div>
+                <a>
+                    <button>Delete</button>
+                </a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

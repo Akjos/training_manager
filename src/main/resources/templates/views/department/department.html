@@ -12,7 +12,7 @@
 <h1>Add department</h1>
 <form action="#" th:action="@{/department/add}" th:object="${department}" method="post">
     Set name department: <input type="text" th:field="*{name}"/><p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
-    <input type="submit"/>
+    <input th:value="Save" type="submit"/>
 </form>
 
 <p th:each="dep: ${departmentList}" th:text="*{dep.name}"/>

@@ -48,7 +48,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    //to wykopać do jakiejś fasady department używam tego conajmniej w 2 miejscach ?
     public List<String> getDepartmentList() {
         List<Department> departmentList = departmentRepository.findAll();
         return departmentList.stream().

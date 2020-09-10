@@ -12,7 +12,7 @@
 <form action="#" th:action="@{/user/register}" th:object="${user}" method="post">
     User name: <input type="text" th:field="*{username}"/><p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"/><br>
     Email: <input type="text" th:field="*{email}"/><p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/><br>
-    Password: <input type="text" th:field="*{password}"/><p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/><br>
+    Password: <input type="text" th:type="password" th:field="*{password}"/><p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/><br>
     <div sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
         Position:<br>
         <select th:field="*{role}">
@@ -31,7 +31,7 @@
         <p th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></p>
     </div>
     <br>
-    <input type="submit">
+    <input th:value="Add" type="submit">
 </form>
 </body>
 </html>

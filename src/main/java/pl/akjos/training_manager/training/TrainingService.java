@@ -11,8 +11,9 @@ import pl.akjos.training_manager.domain.repositories.TrainingRepository;
 import pl.akjos.training_manager.domain.repositories.UserRepository;
 import pl.akjos.training_manager.utils.SecurityUtils;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,14 +30,14 @@ public class TrainingService {
                 collect(Collectors.toList());
     }
 
-    public void saveToDb(TrainingDTO trainingDTO) {
-        String userRole = SecurityUtils.getUserRole();
+    public void saveNewTrainingToDb(TrainingDTO trainingDTO) {
         Training training = new Training();
+        String userRole = SecurityUtils.getUserRole();
         if (userRole.equals("ROLE_TEAM_LEADER")) {
             String userName = SecurityUtils.getUsername();
             User loggedUser = userRepository.getByUsername(userName);
             log.debug("Logged user: {}", loggedUser);
-            List<Department> departmentList = Arrays.asList(getDepartmentByName(loggedUser.getDepartment().getName()));
+            List<Department> departmentList = Collections.singletonList(getDepartmentByName(loggedUser.getDepartment().getName()));
             training.setDepartments(departmentList);
         } else {
             List<Department> departmentList = trainingDTO.getDepartment().stream().
@@ -44,6 +45,12 @@ public class TrainingService {
                     collect(Collectors.toList());
             training.setDepartments(departmentList);
         }
+        convertTrainingDTOToDb(trainingDTO, training);
+        log.debug("Save new training: {} department: {}", training, training.getDepartments());
+        trainingRepository.save(training);
+    }
+
+    private void convertTrainingDTOToDb(TrainingDTO trainingDTO, Training training) {
         training.setTitle(trainingDTO.getTitle());
         training.setDescription(trainingDTO.getDescription());
         training.setActive(true);
@@ -51,7 +58,19 @@ public class TrainingService {
         training.setQuantityAvailable(trainingDTO.getQuantityAvailable());
         training.setTrainingDays(trainingDTO.getTrainingDays());
         training.setDataStart(trainingDTO.getDataStart());
-        log.debug("Save training: {} department: {}", training, training.getDepartments());
+    }
+
+    public void updateTrainingToDb(TrainingDTO trainingDTO) {
+        Training training = trainingRepository.findById(trainingDTO.getId()).get();
+        String userRole = SecurityUtils.getUserRole();
+        if (!userRole.equals("ROLE_TEAM_LEADER")) {
+            List<Department> departmentList = trainingDTO.getDepartment().stream().
+                    map(this::getDepartmentByName).
+                    collect(Collectors.toList());
+            training.setDepartments(departmentList);
+        }
+        convertTrainingDTOToDb(trainingDTO,training);
+        log.debug("Update new training: {} department: {}", training, training.getDepartments());
         trainingRepository.save(training);
     }
 
@@ -83,9 +102,14 @@ public class TrainingService {
         trainingDTO.setTrainingDays(t.getTrainingDays());
         trainingDTO.setDataStart(t.getDataStart());
         List<String> departmentNameList = t.getDepartments().stream()
-                .map(e -> e.getName())
+                .map(Department::getName)
                 .collect(Collectors.toList());
         trainingDTO.setDepartment(departmentNameList);
         return trainingDTO;
+    }
+
+    public TrainingDTO getTrainingById(Long id) {
+        Optional<Training> training = trainingRepository.findById(id);
+        return training.map(this::convertTrainingToDTO).orElse(null);
     }
 }

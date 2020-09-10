@@ -2,14 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Add Training</title>
+    <title>Edit Training</title>
 </head>
 <body>
-<div>
-    <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
-</div>
-<h1>Add training</h1>
-<form th:action="@{/training/manage/add}" th:object="${training}" method="post">
+<h1>Edit training</h1>
+<form th:action="@{/training/manage/edit}" th:object="${training}" method="post">
+    <input type="hidden" th:field="*{id}"/>
     Title: <input type="text" th:field="*{title}"/>
     <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/><br>
     Description: <br><textarea th:field="*{description}" rows="10" cols="35"/><br>
@@ -22,13 +20,18 @@
 
     <br>
     <div sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
-        Department:<br>
-        <select multiple="multiple" th:field="*{department}">
-            <option th:each="departmentName: ${departmentList}" th:text="${departmentName}" th:value="${departmentName}"/>
-        </select>
+        <label>
+            Department:<br>
+            <select multiple="multiple" th:field="*{department}">
+                <option th:each="departmentName: ${departmentList}" th:text="${departmentName}" th:value="${departmentName}"/>
+            </select>
+        </label>
     </div>
     <br>
-    <input type="submit">
+    <input th:value="Edit" type="submit"/>
+    <a th:href="@{/training/management/list}">
+        <button>Cancel</button>
+    </a>
 </form>
 </body>
 </html>
