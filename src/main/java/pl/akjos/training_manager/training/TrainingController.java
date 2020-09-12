@@ -68,4 +68,16 @@ public class TrainingController {
         return "redirect:/training/manage/list";
     }
 
+    @GetMapping("/user/list")
+    public String showAvailableTrainingForUser(Model model) {
+        model.addAttribute("trainingList", trainingService.getTrainingListForUser());
+        return "training/user/training_to_choose";
+    }
+
+    @GetMapping("user/showToSignUp/{id}")
+    public String showDetailsTrainingForSignUp(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("training", trainingService.getTrainingById(id));
+        model.addAttribute("signUp", trainingService.countUserTrainingById(id));
+        return "training/user/show_to_sign_up";
+    }
 }

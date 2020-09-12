@@ -9,6 +9,7 @@ import pl.akjos.training_manager.domain.model.User;
 import pl.akjos.training_manager.domain.repositories.DepartmentRepository;
 import pl.akjos.training_manager.domain.repositories.TrainingRepository;
 import pl.akjos.training_manager.domain.repositories.UserRepository;
+import pl.akjos.training_manager.domain.repositories.UserTrainingRepository;
 import pl.akjos.training_manager.utils.SecurityUtils;
 
 import java.util.Collections;
@@ -23,6 +24,7 @@ public class TrainingService {
     private final TrainingRepository trainingRepository;
     private final DepartmentRepository departmentRepository;
     private final UserRepository userRepository;
+    private final UserTrainingRepository userTrainingRepository;
 
     public List<String> getDepartmentList() {
         return departmentRepository.findAll().stream().
@@ -37,7 +39,7 @@ public class TrainingService {
             String userName = SecurityUtils.getUsername();
             User loggedUser = userRepository.getByUsername(userName);
             log.debug("Logged user: {}", loggedUser);
-            List<Department> departmentList = Collections.singletonList(getDepartmentByName(loggedUser.getDepartment().getName()));
+            List<Department> departmentList = Collections.singletonList(loggedUser.getDepartment());
             training.setDepartments(departmentList);
         } else {
             List<Department> departmentList = trainingDTO.getDepartment().stream().
@@ -92,6 +94,19 @@ public class TrainingService {
         }
     }
 
+    public List<TrainingDTO> getTrainingListForUser() {
+        User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
+        List<TrainingDTO> trainingList = getTrainingList();
+        List<TrainingDTO> trainingsAssignToUser = trainingRepository.getAllTrainingAssignToUserByUserId(loggedUser.getId())
+                .stream()
+                .map(this::convertTrainingToDTO)
+                .collect(Collectors.toList());
+        log.debug(trainingList.toString());
+        log.debug(trainingsAssignToUser.toString());
+        trainingList.removeAll(trainingsAssignToUser);
+        return trainingList;
+    }
+
     private TrainingDTO convertTrainingToDTO(Training t) {
         TrainingDTO trainingDTO = new TrainingDTO();
         trainingDTO.setId(t.getId());
@@ -114,12 +129,16 @@ public class TrainingService {
     }
 
     public void disable(Long id) {
-        System.out.println(id + "id !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
         Optional<Training> trainingOptional = trainingRepository.findById(id);
         if (trainingOptional.isPresent()) {
             Training training = trainingOptional.get();
             training.setActive(false);
             trainingRepository.save(training);
         }
+    }
+
+
+    public Integer countUserTrainingById(Long id) {
+        return userTrainingRepository.countAllById(id);
     }
 }

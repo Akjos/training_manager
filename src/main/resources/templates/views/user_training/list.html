@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User training list</title>
+</head>
+<body>
+
+<!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
+
+<h1>Status your training:</h1>
+<p th:each="traingnStatus: ${trainingList}" th:text="${traingnStatus}"></p>
+</body>
+</html>

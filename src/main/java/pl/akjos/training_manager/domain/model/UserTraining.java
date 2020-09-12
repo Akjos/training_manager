@@ -41,4 +41,10 @@ public class UserTraining {
     @Column(name = "denied")
     private boolean denied;
 
+    @PrePersist
+    public void prePersist() {
+        acceptByTeamLeader =false;
+        acceptByManager =false;
+        denied =false;
+    }
 }

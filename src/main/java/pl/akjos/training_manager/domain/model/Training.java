@@ -38,7 +38,7 @@ public class Training {
     @Column(name = "training_days")
     private Integer trainingDays;
 
-    @Column(name = "dataStart")
+    @Column(name = "data_start")
     private LocalDate dataStart;
 
     @ManyToMany

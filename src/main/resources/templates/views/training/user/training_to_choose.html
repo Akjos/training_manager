@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
+<table>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>Title</th>
+        <th>Start of</th>
+        <th>Training Days</th>
+        <th>Quantity</th>
+        <th>Option</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="training, iter : ${trainingList}">
+        <td th:text="${iter.count}"></td>
+        <td th:text="*{training.title}"></td>
+        <td th:text="*{training.dataStart}"></td>
+        <td th:text="*{training.trainingDays}"></td>
+        <td th:text="*{training.quantityAvailable}"></td>
+        <td>
+            <div>
+                <a th:href="@{/training/user/showToSignUp/{id} (id=*{training.id})}">
+                    <button>Show</button>
+                </a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>

@@ -6,17 +6,25 @@
 <body>
 <div th:fragment="mainMenu">
     <div sec:authorize="isAuthenticated()">
-        <p><a th:href="@{/}">Home</a></p>
-        <p sec:authorize="hasAnyRole('ADMIN', 'MANAGER', 'TEAM_LEADER')"><a th:href="@{/user/register}">Register</a></p>
-        <p sec:authorize="hasAnyRole('ADMIN', 'MANAGER', 'TEAM_LEADER')"><a th:href="@{/training/manage/add}">Add new Training</a></p>
-        <p sec:authorize="hasAnyRole('ADMIN', 'MANAGER', 'TEAM_LEADER')"><a th:href="@{/training/manage/list}">Training List</a></p>
-        <p><a th:href="@{/user/list}">Show Users</a></p>
-        <p sec:authorize="hasAnyRole('ADMIN', 'MANAGER')"><a th:href="@{/department}">Department</a></p>
         <div>
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" value="Logout">
-            </form>
+            <p><a th:href="@{/}">Home</a></p>
+            <span sec:authorize="hasAnyRole('ADMIN', 'MANAGER', 'TEAM_LEADER')">
+        <p><a th:href="@{/user/register}">Register</a></p>
+        <p><a th:href="@{/training/manage/add}">Add new Training</a></p>
+        <p><a th:href="@{/training/manage/list}">Training To Edit</a></p>
+            </span>
+            <p><a th:href="@{/user/list}">Show Users</a></p>
+            <p sec:authorize="hasAnyRole('ADMIN', 'MANAGER')"><a th:href="@{/department}">Department</a></p>
+            <div>
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="Logout">
+                </form>
+            </div>
         </div>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <p><a th:href="@{/training/user/list}">Choose your training</a></p>
+        <p><a th:href="@{/user_training/list}">Yours training</a></p>
     </div>
 </div>
 </body>
