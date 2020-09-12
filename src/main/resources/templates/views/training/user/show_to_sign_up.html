@@ -9,10 +9,10 @@
 
 <form th:action="@{/user_training/add}" th:method="post"  th:object="${training}">
 <span>
-    <span th:text="'Title ' + *{title}"></span><br>
-    <span th:text="'Descriprion ' + *{description}"></span><br>
+    <span th:text="'Title: ' + *{title}"></span><br>
+    <span th:text="'Descriprion: ' + *{description}"></span><br>
     <span th:text="'Training start: ' + *{dataStart}"></span><br>
-    <span th:text="'Day of training ' + *{trainingDays}"></span><br>
+    <span th:text="'Day of training: ' + *{trainingDays}"></span><br>
     <span th:text="'Sign up ' + ${signUp} + ' for ' + *{quantityAvailable} + ' places'"></span><br>
     <input th:type="hidden" th:field="*{id}"/>
     <label>

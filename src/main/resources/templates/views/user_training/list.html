@@ -9,6 +9,34 @@
 <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
 
 <h1>Status your training:</h1>
-<p th:each="traingnStatus: ${trainingList}" th:text="${traingnStatus}"></p>
+<table>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>Title</th>
+        <th>Accept by Leader</th>
+        <th>Accept by Manager</th>
+        <th>Denied</th>
+        <th>Option</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="training, iter : ${trainingList}">
+        <td th:text="${iter.count}"></td>
+        <td th:text="*{training.title}"></td>
+        <td th:text="*{training.acceptByTeamLeader} ? 'Yes' : 'No'"></td>
+        <td th:text="*{training.acceptByManager} ? 'Yes' : 'No'"></td>
+        <td th:text="*{training.denied} ? 'Yes' : 'No'"></td>
+
+        <td>
+            <div>
+                <a th:href="@{/user_training/details/{id} (id=*{training.userTrainingId})}">
+                    <button>Show details</button>
+                </a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

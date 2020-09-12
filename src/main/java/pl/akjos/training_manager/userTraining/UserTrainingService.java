@@ -10,7 +10,6 @@ import pl.akjos.training_manager.domain.repositories.UserTrainingRepository;
 import pl.akjos.training_manager.utils.SecurityUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,21 +27,14 @@ public class UserTrainingService {
         userTrainingRepository.save(userTraining);
     }
 
-    public List<UserTrainingDTO> getUserTraining() {
+    public List<UserTrainingListDTO> getUserTraining() {
         User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
-        return userTrainingRepository.getAllByUserId(loggedUser.getId())
-                .stream()
-                .map(this::convertUserTrainingToDTO)
-                .collect(Collectors.toList());
+        return userTrainingRepository.getAllUserTrainingListDTOByUserId(loggedUser.getId());
     }
 
-    public UserTrainingDTO convertUserTrainingToDTO(UserTraining userTraining) {
-        UserTrainingDTO userTrainingDTO = new UserTrainingDTO();
-        userTrainingDTO.setTitle(userTraining.getTraining().getTitle());
-        userTrainingDTO.setTrainingId(userTraining.getTraining().getId());
-        userTrainingDTO.setAcceptByManager(userTraining.isAcceptByManager());
-        userTrainingDTO.setAcceptByTeamLeader(userTraining.isAcceptByTeamLeader());
-        userTrainingDTO.setDenied(userTraining.isDenied());
-        return userTrainingDTO;
+    public UserTrainingDetailsDTO getUserTrainingDetails(Long userTrainingId) {
+        User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
+
+        return userTrainingRepository.getByUserIdAndTrainingId(loggedUser.getId(), userTrainingId);
     }
 }
