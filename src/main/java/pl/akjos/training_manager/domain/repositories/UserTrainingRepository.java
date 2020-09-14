@@ -16,4 +16,7 @@ public interface UserTrainingRepository extends JpaRepository<UserTraining, Long
 
     @Query(value = "SELECT new pl.akjos.training_manager.userTraining.UserTrainingDetailsDTO(ut.id, t.title, t.description, t.trainingDays, t.dataStart, ut.acceptByTeamLeader, ut.acceptByManager, ut.denied) FROM UserTraining ut JOIN Training t ON ut.trainingId = t.id WHERE ut.id = :userTrainingId AND ut.userId = :userId")
     UserTrainingDetailsDTO getByUserIdAndTrainingId(Long userId, Long userTrainingId);
+
+    UserTraining getToDeleteByIdAndUserId(Long id, Long userId);
+
 }

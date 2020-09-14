@@ -37,4 +37,11 @@ public class UserTrainingService {
 
         return userTrainingRepository.getByUserIdAndTrainingId(loggedUser.getId(), userTrainingId);
     }
+
+    public void deleteUserTrainingById(Long userTrainingId) {
+        User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
+        UserTraining userTrainingToDelete = userTrainingRepository.getToDeleteByIdAndUserId(userTrainingId, loggedUser.getId());
+        log.debug("user training to delete {}", userTrainingToDelete);
+        userTrainingRepository.delete(userTrainingToDelete);
+    }
 }
