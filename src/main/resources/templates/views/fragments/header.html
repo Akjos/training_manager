@@ -22,6 +22,9 @@
             </div>
         </div>
     </div>
+    <div sec:authorize="hasRole('TEAM_LEADER')">
+        <p><a th:href="@{/user_training/manage/leader/list_to_accept}">Training to accept</a></p>
+    </div>
     <div sec:authorize="isAuthenticated()">
         <p><a th:href="@{/training/user/list}">Choose your training</a></p>
         <p><a th:href="@{/user_training/list}">Yours training</a></p>

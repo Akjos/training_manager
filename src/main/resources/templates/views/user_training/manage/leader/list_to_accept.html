@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Training awaiting approval</title>
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
+
+Training awaiting for accept:
+<p th:each="training: ${trainingList}" th:text="*{training}"></p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>Username</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Training Days</th>
+        <th>Starting date</th>
+        <th>Option</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="training, iter : ${trainingList}">
+        <td th:text="${iter.count}"></td>
+        <td th:text="*{training.userName}"></td>
+        <td th:text="*{training.title}"></td>
+        <td th:text="*{training.price}"></td>
+        <td th:text="*{training.trainingDays}"></td>
+        <td th:text="*{training.dataStart}"></td>
+        <td>
+            <div>
+                <a th:href="@{/training/manage/edit/{id} (id=*{training.id})}">
+                    <button>Manage</button>
+                </a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

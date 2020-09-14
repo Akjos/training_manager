@@ -16,7 +16,6 @@ public class UserTrainingController {
 
     @PostMapping("/add")
     public String addTrainingToUser(TrainingDTO training) {
-        log.debug(training.toString());
         userTrainingService.addTrainingToUser(training.getId());
         return "redirect:/user_training/list";
     }
@@ -43,5 +42,19 @@ public class UserTrainingController {
     public String deleteTrainingFromUser(@ModelAttribute("userTrainingId") Long userTrainingId) {
         userTrainingService.deleteUserTrainingById(userTrainingId);
         return "redirect:/user_training/list";
+    }
+
+    @GetMapping("/manage/leader/list_to_accept")
+    public String prepareTrainingToAcceptListForTeamLeader(Model model) {
+        model.addAttribute("trainingList", userTrainingService.getTrainingListToAcceptForTeamLeader());
+        return "/user_training/manage/leader/list_to_accept";
+    }
+
+    @GetMapping("/manage/details/{id}")
+    public String prepareTrainingToAcceptFormForTeamLeader(@PathVariable("id") Long id, Model model) {
+        UserTrainingDetailsToManageDTO userTrainingDetailsToManageDTO = userTrainingService.getUserTrainingDetailsForManage(id);
+        model.addAttribute("training", userTrainingDetailsToManageDTO);
+        model.addAttribute("accept", userTrainingService.getCountAcceptTraining(userTrainingDetailsToManageDTO.getTitle()));
+        return "/user_training/manage/details";
     }
 }

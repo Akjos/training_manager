@@ -44,4 +44,18 @@ public class UserTrainingService {
         log.debug("user training to delete {}", userTrainingToDelete);
         userTrainingRepository.delete(userTrainingToDelete);
     }
+
+    public List<UserTrainingViewToManageListDTO> getTrainingListToAcceptForTeamLeader() {
+        User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
+        log.debug("User: {}", loggedUser);
+        return userTrainingRepository.getAllUserTrainingByDepartmentId(loggedUser.getDepartment().getId());
+    }
+
+    public UserTrainingDetailsToManageDTO getUserTrainingDetailsForManage(Long id) {
+        return userTrainingRepository.getUserTrainingDetailsToManageById(id);
+    }
+
+    public Integer getCountAcceptTraining(String trainingName) {
+      return userTrainingRepository.countAllByTrainingTitleAndAcceptByManager(trainingName);
+    }
 }
