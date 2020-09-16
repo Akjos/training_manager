@@ -12,4 +12,6 @@ public class DepartmentDTO {
     @NotEmpty
     @NotNull
     private String name;
+
+    private Long id;
 }

@@ -19,6 +19,7 @@ public class DepartmentService {
         for (Department department : departmentList) {
             DepartmentDTO departmentDTO = new DepartmentDTO();
             departmentDTO.setName(department.getName());
+            departmentDTO.setId(department.getId());
             departmentDTOList.add(departmentDTO);
         }
         return departmentDTOList;

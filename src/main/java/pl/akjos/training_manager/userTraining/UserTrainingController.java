@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.akjos.training_manager.department.DepartmentService;
 import pl.akjos.training_manager.training.TrainingDTO;
+
+import java.util.ArrayList;
 
 @Controller
 @RequiredArgsConstructor
@@ -13,6 +16,7 @@ import pl.akjos.training_manager.training.TrainingDTO;
 @Slf4j
 public class UserTrainingController {
     private final UserTrainingService userTrainingService;
+    private final DepartmentService departmentService;
 
 //    endpoint for user
 
@@ -47,6 +51,7 @@ public class UserTrainingController {
     }
 
 //    endpoint for leader to manage userTraining
+
     @GetMapping("/manage/leader/list_to_accept")
     public String prepareTrainingToAcceptListForTeamLeader(Model model) {
         model.addAttribute("trainingList", userTrainingService.getTrainingListToAcceptForTeamLeader());
@@ -62,6 +67,19 @@ public class UserTrainingController {
 
 //    endpoint for manager to manage userTraining
 
+    @GetMapping("/manage/manager/list_to_accept")
+    public String prepareTrainingToAcceptListForManager(Model model) {
+        model.addAttribute("trainingList", new ArrayList<UserTrainingViewToManageListDTO>());
+        model.addAttribute("departmentList", departmentService.getDepartmentList());
+        return "/user_training/manage/manager/to_accept_list";
+    }
+
+    @PostMapping("/manage/manager/list_to_accept")
+    public String prepareTrainingToAcceptWithChooseDepartmentListForManager(@ModelAttribute("departmentId") Long departmentId, Model model) {
+        model.addAttribute("trainingList", userTrainingService.getTrainingListToAcceptForManager(departmentId));
+        model.addAttribute("departmentList", departmentService.getDepartmentList());
+        return "/user_training/manage/manager/to_accept_list";
+    }
 //    endpoint common for team leader and manager
 
     @GetMapping("/manage/details_to_add/{id}")

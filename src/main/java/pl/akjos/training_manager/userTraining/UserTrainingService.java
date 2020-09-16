@@ -48,7 +48,11 @@ public class UserTrainingService {
     public List<UserTrainingViewToManageListDTO> getTrainingListToAcceptForTeamLeader() {
         User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
         log.debug("User: {}", loggedUser);
-        return userTrainingRepository.getAllUserTrainingByDepartmentId(loggedUser.getDepartment().getId());
+        return userTrainingRepository.getAllUserTrainingByDepartmentIdForTeamLeader(loggedUser.getDepartment().getId());
+    }
+
+    public List<UserTrainingViewToManageListDTO> getTrainingListToAcceptForManager(Long id) {
+        return userTrainingRepository.getAllUserTrainingByDepartmentIdForManager(id);
     }
 
     public UserTrainingDetailsToManageDTO getUserTrainingDetailsForManage(Long id) {
