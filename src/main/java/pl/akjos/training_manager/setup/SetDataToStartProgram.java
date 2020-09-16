@@ -68,6 +68,14 @@ public class SetDataToStartProgram implements ApplicationRunner {
         userTraining4.setAcceptByTeamLeader(false);
         userTraining4.setDenied(false);
         userTrainingRepository.save(userTraining4);
+
+        UserTraining userTraining5 = new UserTraining();
+        userTraining5.setUserId(5L);
+        userTraining5.setTrainingId(2L);
+        userTraining5.setAcceptByManager(false);
+        userTraining5.setAcceptByTeamLeader(false);
+        userTraining5.setDenied(false);
+        userTrainingRepository.save(userTraining5);
     }
 
     private void setTrainingInDb() {
@@ -97,6 +105,33 @@ public class SetDataToStartProgram implements ApplicationRunner {
         list.add(departmentRepository.findById(1L).get());
         training2.setDepartments(list);
         trainingRepository.save(training2);
+
+        Training training3 = new Training();
+        training3.setTitle("Junior accounting");
+        training3.setDescription("The world of accounting can be vast and complex at times.  Once you get past the debits and credits, general ledger entries and financial reports, you realize there is much, much more to it!  In this course you and I will cover that much, much more!");
+        training3.setDataStart(LocalDate.of(2020, 10, 15));
+        training3.setPrice(1220.0);
+        training3.setQuantityAvailable(2);
+        training3.setTrainingDays(10);
+        training3.setActive(true);
+        list = new ArrayList<>();
+        list.add(departmentRepository.findById(1L).get());
+        training.setDepartments(list);
+        trainingRepository.save(training3);
+
+        Training training4 = new Training();
+        training4.setTitle("Ask Better Questions - Build Better Relationships");
+        training4.setDescription("Relationships: we all want better professional and personal relationships. Improving your questioning skills is a powerful way to build stronger, better relationships. That's why, according to Anthony Robbins, successful people ask better questions.");
+        training4.setDataStart(LocalDate.of(2020, 10, 15));
+        training4.setPrice(3000.0);
+        training4.setQuantityAvailable(2);
+        training4.setTrainingDays(10);
+        training4.setActive(true);
+        list = new ArrayList<>();
+        list.add(departmentRepository.findById(1L).get());
+        list.add(departmentRepository.findById(2L).get());
+        training.setDepartments(list);
+        trainingRepository.save(training4);
     }
 
     private void setDepartmentInDb() {
@@ -144,6 +179,14 @@ public class SetDataToStartProgram implements ApplicationRunner {
         hrworker.setDepartment(departmentRepository.getByName("Humane resource"));
         userRepository.save(hrworker);
 
+        User acWorker = new User();
+        acWorker.setUsername("acworker");
+        acWorker.setEmail("email_ac_worker_1");
+        acWorker.setActive(true);
+        acWorker.setPassword(passwordEncoder.encode("pass"));
+        acWorker.setRole(roleRepository.getByName("ROLE_WORKER"));
+        acWorker.setDepartment(departmentRepository.getByName("Accounting"));
+        userRepository.save(acWorker);
 
     }
 
