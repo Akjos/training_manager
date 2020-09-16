@@ -56,6 +56,40 @@ public class UserTrainingService {
     }
 
     public Integer getCountAcceptTraining(String trainingName) {
-      return userTrainingRepository.countAllByTrainingTitleAndAcceptByManager(trainingName);
+        return userTrainingRepository.countAllByTrainingTitleAndAcceptByManager(trainingName);
+    }
+
+    public void acceptTraining(Long id) {
+        UserTraining userTraining = userTrainingRepository.findById(id).get();
+        if (SecurityUtils.getUserRole().equals("ROLE_TEAM_LEADER")) {
+            userTraining.setAcceptByTeamLeader(true);
+        } else {
+            userTraining.setAcceptByManager(true);
+        }
+        userTraining.setDenied(false);
+        userTrainingRepository.save(userTraining);
+    }
+
+    public void deniedTraining(Long id) {
+        UserTraining userTraining = userTrainingRepository.findById(id).get();
+        if (SecurityUtils.getUserRole().equals("ROLE_TEAM_LEADER")) {
+            userTraining.setAcceptByTeamLeader(false);
+        } else {
+            userTraining.setAcceptByManager(false);
+        }
+        userTraining.setDenied(true);
+        userTrainingRepository.save(userTraining);
+    }
+
+    public List<UserTrainingViewToManageListDTO> getAcceptUserTrainingListForTeamLeader() {
+        User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
+        log.debug("User: {}", loggedUser);
+        return userTrainingRepository.getAllUserTrainingAcceptToEditForTeamLeaderByDepartmentId(loggedUser.getDepartment().getId());
+    }
+
+    public List<UserTrainingViewToManageListDTO> getDeniedUserTrainingListForTeamLeader() {
+        User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
+        log.debug("User: {}", loggedUser);
+        return userTrainingRepository.getAllUserTrainingDeniedToEditForTeamLeaderByDepartmentId(loggedUser.getDepartment().getId());
     }
 }

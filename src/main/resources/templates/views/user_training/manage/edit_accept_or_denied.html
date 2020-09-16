@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Details to manage</title>
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
+
+<h1>Details training:</h1>
+<span th:object="${training}">
+    <span th:text="'Title: ' + *{title}"></span><br>
+    <span th:text="'Descriprion ' + *{description}"></span><br>
+    <span th:text="'Training start: ' + *{dataStart}"></span><br>
+    <span th:text="'Day of training: ' + *{trainingDays}"></span><br>
+    <span th:text="'Price: ' + *{price}"></span><br>
+    <span th:text="'Sign up ' + ${numberAcceptTraining} + ' for ' + *{quantityAvailable} + ' places'"></span><br>
+
+    <form th:action="@{/user_training/manage/edit_accept}" th:method="post">
+        <input type="hidden" th:name="userTrainingId" th:value="${training.id}"/>
+        <label>
+            <input th:value="Accept" th:type="submit"/>
+        </label>
+    </form>
+
+    <form th:action="@{/user_training/manage/edit_denied}" th:method="post">
+        <input type="hidden" th:name="userTrainingId" th:value="${training.id}"/>
+        <label>
+            <input th:value="Denied" th:type="submit"/>
+        </label>
+    </form>
+
+</span>
+</body>
+</html>

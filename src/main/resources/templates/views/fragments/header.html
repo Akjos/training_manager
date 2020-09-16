@@ -7,6 +7,7 @@
 <div th:fragment="mainMenu">
     <div sec:authorize="isAuthenticated()">
         <div>
+            <h2>Main menu</h2>
             <p><a th:href="@{/}">Home</a></p>
             <span sec:authorize="hasAnyRole('ADMIN', 'MANAGER', 'TEAM_LEADER')">
         <p><a th:href="@{/user/register}">Register</a></p>
@@ -23,9 +24,12 @@
         </div>
     </div>
     <div sec:authorize="hasRole('TEAM_LEADER')">
+        <h2>Manage training</h2>
         <p><a th:href="@{/user_training/manage/leader/list_to_accept}">Training to accept</a></p>
+        <p><a th:href="@{/user_training/manage/leader/edit_list}">Training to edit</a></p>
     </div>
     <div sec:authorize="isAuthenticated()">
+        <h2>Yours training</h2>
         <p><a th:href="@{/training/user/list}">Choose your training</a></p>
         <p><a th:href="@{/user_training/list}">Yours training</a></p>
     </div>

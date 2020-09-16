@@ -8,8 +8,6 @@
 <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
 
 Training awaiting for accept:
-<p th:each="training: ${trainingList}" th:text="*{training}"></p>
-
 <table>
     <thead>
     <tr>
@@ -32,7 +30,7 @@ Training awaiting for accept:
         <td th:text="*{training.dataStart}"></td>
         <td>
             <div>
-                <a th:href="@{/user_training/manage/details/{id} (id=*{training.id})}">
+                <a th:href="@{/user_training/manage/details_to_add/{id} (id=*{training.id})}">
                     <button>Manage</button>
                 </a>
             </div>

@@ -14,6 +14,8 @@ import pl.akjos.training_manager.training.TrainingDTO;
 public class UserTrainingController {
     private final UserTrainingService userTrainingService;
 
+//    endpoint for user
+
     @PostMapping("/add")
     public String addTrainingToUser(TrainingDTO training) {
         userTrainingService.addTrainingToUser(training.getId());
@@ -44,17 +46,63 @@ public class UserTrainingController {
         return "redirect:/user_training/list";
     }
 
+//    endpoint for leader to manage userTraining
     @GetMapping("/manage/leader/list_to_accept")
     public String prepareTrainingToAcceptListForTeamLeader(Model model) {
         model.addAttribute("trainingList", userTrainingService.getTrainingListToAcceptForTeamLeader());
-        return "/user_training/manage/leader/list_to_accept";
+        return "/user_training/manage/leader/to_accept_list";
     }
 
-    @GetMapping("/manage/details/{id}")
-    public String prepareTrainingToAcceptFormForTeamLeader(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/manage/leader/edit_list")
+    public String showUserTrainingToEdit(Model model) {
+        model.addAttribute("acceptList", userTrainingService.getAcceptUserTrainingListForTeamLeader());
+        model.addAttribute("deniedList", userTrainingService.getDeniedUserTrainingListForTeamLeader());
+        return "/user_training/manage/leader/edit_list";
+    }
+
+//    endpoint for manager to manage userTraining
+
+//    endpoint common for team leader and manager
+
+    @GetMapping("/manage/details_to_add/{id}")
+    public String prepareTrainingToManage(@PathVariable("id") Long id, Model model) {
         UserTrainingDetailsToManageDTO userTrainingDetailsToManageDTO = userTrainingService.getUserTrainingDetailsForManage(id);
         model.addAttribute("training", userTrainingDetailsToManageDTO);
-        model.addAttribute("accept", userTrainingService.getCountAcceptTraining(userTrainingDetailsToManageDTO.getTitle()));
-        return "/user_training/manage/details";
+        model.addAttribute("numberAcceptTraining", userTrainingService.getCountAcceptTraining(userTrainingDetailsToManageDTO.getTitle()));
+        return "/user_training/manage/add_accept_or_denied";
     }
+
+    @PostMapping("/manage/add_accept")
+    public String acceptTraining(@ModelAttribute("userTrainingId") Long id) {
+        userTrainingService.acceptTraining(id);
+        return "redirect:/user_training/manage/leader/list_to_accept";
+    }
+
+    @PostMapping("/manage/add_denied")
+    public String deniedTraining(@ModelAttribute("userTrainingId") Long id) {
+        userTrainingService.deniedTraining(id);
+        return "redirect:/user_training/manage/leader/list_to_accept";
+    }
+
+    @GetMapping("/manage/details_to_edit/{id}")
+    public String prepareTrainingToManageEdit(@PathVariable("id") Long id, Model model) {
+        UserTrainingDetailsToManageDTO userTrainingDetailsToManageDTO = userTrainingService.getUserTrainingDetailsForManage(id);
+        model.addAttribute("training", userTrainingDetailsToManageDTO);
+        model.addAttribute("numberAcceptTraining", userTrainingService.getCountAcceptTraining(userTrainingDetailsToManageDTO.getTitle()));
+        return "/user_training/manage/edit_accept_or_denied";
+    }
+
+    @PostMapping("/manage/edit_accept")
+    public String editAcceptTraining(@ModelAttribute("userTrainingId") Long id) {
+        userTrainingService.acceptTraining(id);
+        return "redirect:/user_training/manage/leader/edit_list";
+    }
+
+    @PostMapping("/manage/edit_denied")
+    public String editDeniedTraining(@ModelAttribute("userTrainingId") Long id) {
+        userTrainingService.deniedTraining(id);
+        return "redirect:/user_training/manage/leader/edit_list";
+    }
+
+
 }
