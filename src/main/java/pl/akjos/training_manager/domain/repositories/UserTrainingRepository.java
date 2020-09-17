@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserTrainingRepository extends JpaRepository<UserTraining, Long> {
     Integer countAllById(Long id);
 
-    @Query("SELECT COUNT(ut) FROM UserTraining ut, Training t WHERE t.title = :title AND ut.acceptByManager = TRUE")
+    @Query("SELECT COUNT(ut) FROM UserTraining ut JOIN Training t ON ut.trainingId = t.id WHERE t.title = :title AND ut.acceptByManager = TRUE")
     Integer countAllByTrainingTitleAndAcceptByManager(String title);
 
     @Query(value = "SELECT new pl.akjos.training_manager.userTraining.UserTrainingListDTO(ut.id, t.title, ut.acceptByTeamLeader, ut.acceptByManager, ut.denied) FROM UserTraining ut LEFT JOIN Training t ON t.id = ut.trainingId WHERE ut.userId =:userId")
