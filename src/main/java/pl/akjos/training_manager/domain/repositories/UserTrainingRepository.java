@@ -38,4 +38,10 @@ public interface UserTrainingRepository extends JpaRepository<UserTraining, Long
 
     @Query(value = "SELECT new pl.akjos.training_manager.userTraining.UserTrainingViewToManageListDTO(ut.id, u.username, t.title, t.price, t.trainingDays, t.dataStart) FROM UserTraining ut JOIN ut.training t JOIN ut.user u JOIN u.department d WHERE d.id = :departmentId AND t.active = TRUE AND ut.acceptByTeamLeader = TRUE AND ut.acceptByManager = FALSE AND ut.denied = FALSE")
     List<UserTrainingViewToManageListDTO> getAllUserTrainingByDepartmentIdForManager(Long departmentId);
+
+    @Query(value = "SELECT new pl.akjos.training_manager.userTraining.UserTrainingViewToManageListDTO(ut.id, u.username, t.title, t.price, t.trainingDays, t.dataStart) FROM UserTraining ut JOIN ut.training t JOIN ut.user u JOIN u.department d WHERE d.id = :departmentId AND t.active = TRUE AND ut.acceptByTeamLeader = TRUE AND ut.denied = FALSE AND ut.acceptByManager = TRUE")
+    List<UserTrainingViewToManageListDTO> getAllUserTrainingAcceptToEditForManagerByDepartmentId(Long departmentId);
+
+    @Query(value = "SELECT new pl.akjos.training_manager.userTraining.UserTrainingViewToManageListDTO(ut.id, u.username, t.title, t.price, t.trainingDays, t.dataStart) FROM UserTraining ut JOIN ut.training t JOIN ut.user u JOIN u.department d WHERE d.id = :departmentId AND t.active = TRUE AND ut.acceptByTeamLeader = TRUE AND ut.denied = TRUE AND ut.acceptByManager = FALSE")
+    List<UserTrainingViewToManageListDTO> getAllUserTrainingDeniedToEditForManagerByDepartmentId(Long departmentId);
 }

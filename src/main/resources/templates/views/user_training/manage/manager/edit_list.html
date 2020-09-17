@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Training awaiting approval</title>
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
+<div th:if="${#lists.isEmpty(departmentList)}">
+    <h2>You don't have any department</h2>
+</div>
+<div th:if="${not #lists.isEmpty(departmentList)}">
+    <form th:action="@{/user_training/manage/manager/edit_list}" method="post">
+        Department:<br>
+        <select th:name="departmentId">
+            <option th:each="departmentDTO: ${departmentList}" th:text="${departmentDTO.name}" th:value="${departmentDTO.id}"/>
+        </select>
+        <input th:value="Show" type="submit">
+    </form>
+</div>
+<h2>List accept training</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>Username</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Training Days</th>
+        <th>Starting date</th>
+        <th>Option</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="training, iter : ${acceptList}">
+        <td th:text="${iter.count}"></td>
+        <td th:text="*{training.userName}"></td>
+        <td th:text="*{training.title}"></td>
+        <td th:text="*{training.price}"></td>
+        <td th:text="*{training.trainingDays}"></td>
+        <td th:text="*{training.dataStart}"></td>
+        <td>
+            <div>
+                <a th:href="@{/user_training/manage/details_to_edit/{id} (id=*{training.id})}">
+                    <button>Manage</button>
+                </a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h2>List denied training</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>Username</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Training Days</th>
+        <th>Starting date</th>
+        <th>Option</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="training, iter : ${deniedList}">
+        <td th:text="${iter.count}"></td>
+        <td th:text="*{training.userName}"></td>
+        <td th:text="*{training.title}"></td>
+        <td th:text="*{training.price}"></td>
+        <td th:text="*{training.trainingDays}"></td>
+        <td th:text="*{training.dataStart}"></td>
+        <td>
+            <div>
+                <a th:href="@{/user_training/manage/details_to_edit/{id} (id=*{training.id})}">
+                    <button>Manage</button>
+                </a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

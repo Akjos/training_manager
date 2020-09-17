@@ -12,6 +12,7 @@ import pl.akjos.training_manager.domain.repositories.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -40,42 +41,41 @@ public class SetDataToStartProgram implements ApplicationRunner {
         UserTraining userTraining = new UserTraining();
         userTraining.setUserId(4L);
         userTraining.setTrainingId(1L);
-        userTraining.setAcceptByManager(false);
-        userTraining.setAcceptByTeamLeader(false);
-        userTraining.setDenied(false);
         userTrainingRepository.save(userTraining);
 
         UserTraining userTraining2 = new UserTraining();
         userTraining2.setUserId(4L);
         userTraining2.setTrainingId(2L);
-        userTraining2.setAcceptByManager(false);
-        userTraining2.setAcceptByTeamLeader(false);
-        userTraining2.setDenied(false);
         userTrainingRepository.save(userTraining2);
 
         UserTraining userTraining3 = new UserTraining();
         userTraining3.setUserId(3L);
         userTraining3.setTrainingId(1L);
-        userTraining3.setAcceptByManager(false);
-        userTraining3.setAcceptByTeamLeader(false);
-        userTraining3.setDenied(false);
         userTrainingRepository.save(userTraining3);
 
         UserTraining userTraining4 = new UserTraining();
-        userTraining4.setUserId(2L);
-        userTraining4.setTrainingId(2L);
-        userTraining4.setAcceptByManager(false);
-        userTraining4.setAcceptByTeamLeader(false);
-        userTraining4.setDenied(false);
+        userTraining4.setUserId(5L);
+        userTraining4.setTrainingId(3L);
         userTrainingRepository.save(userTraining4);
 
         UserTraining userTraining5 = new UserTraining();
         userTraining5.setUserId(5L);
-        userTraining5.setTrainingId(2L);
-        userTraining5.setAcceptByManager(false);
-        userTraining5.setAcceptByTeamLeader(false);
-        userTraining5.setDenied(false);
+        userTraining5.setTrainingId(4L);
         userTrainingRepository.save(userTraining5);
+
+//        set accept by team leader to test manager
+        Optional<UserTraining> userTrainingForManagerToAccept = userTrainingRepository.findById(4L);
+        if(userTrainingForManagerToAccept.isPresent()) {
+            UserTraining ut = userTrainingForManagerToAccept.get();
+            ut.setAcceptByTeamLeader(true);
+            userTrainingRepository.save(ut);
+        }
+        userTrainingForManagerToAccept = userTrainingRepository.findById(5L);
+        if (userTrainingForManagerToAccept.isPresent()) {
+            UserTraining ut = userTrainingForManagerToAccept.get();
+            ut.setAcceptByTeamLeader(true);
+            userTrainingRepository.save(ut);
+        }
     }
 
     private void setTrainingInDb() {

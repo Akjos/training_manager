@@ -47,7 +47,6 @@ public class UserTrainingService {
 
     public List<UserTrainingViewToManageListDTO> getTrainingListToAcceptForTeamLeader() {
         User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
-        log.debug("User: {}", loggedUser);
         return userTrainingRepository.getAllUserTrainingByDepartmentIdForTeamLeader(loggedUser.getDepartment().getId());
     }
 
@@ -87,13 +86,19 @@ public class UserTrainingService {
 
     public List<UserTrainingViewToManageListDTO> getAcceptUserTrainingListForTeamLeader() {
         User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
-        log.debug("User: {}", loggedUser);
         return userTrainingRepository.getAllUserTrainingAcceptToEditForTeamLeaderByDepartmentId(loggedUser.getDepartment().getId());
     }
 
     public List<UserTrainingViewToManageListDTO> getDeniedUserTrainingListForTeamLeader() {
         User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
-        log.debug("User: {}", loggedUser);
         return userTrainingRepository.getAllUserTrainingDeniedToEditForTeamLeaderByDepartmentId(loggedUser.getDepartment().getId());
+    }
+
+    public List<UserTrainingViewToManageListDTO> getAcceptUserTrainingListForManager(Long departmentId) {
+        return userTrainingRepository.getAllUserTrainingAcceptToEditForManagerByDepartmentId(departmentId);
+    }
+
+    public List<UserTrainingViewToManageListDTO> getDeniedUserTrainingListForManager(Long departmentId) {
+        return userTrainingRepository.getAllUserTrainingDeniedToEditForManagerByDepartmentId(departmentId);
     }
 }
