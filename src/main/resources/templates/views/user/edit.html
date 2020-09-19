@@ -2,14 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Edit User</title>
 </head>
 <body>
-<div>
-    <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
-</div>
-<h1>Register</h1>
-<form action="#" th:action="@{/user/register}" th:object="${user}" method="post">
+<h1>Edit User</h1>
+<form action="#" th:action="@{/user/edit}" th:object="${user}" method="post">
     User login: <input type="text" th:field="*{username}"/><p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"/><br>
     User first name: <input type="text" th:field="*{firstName}"/><p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"/><br>
     User last name: <input type="text" th:field="*{lastName}"/><p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"/><br>
@@ -33,7 +30,11 @@
         <p th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></p>
     </div>
     <br>
-    <input th:value="Add" type="submit">
+    <input type="hidden" th:field="*{id}"/>
+    <input th:value="Save" type="submit">
+    <a th:href="@{/user/list_to_edit}">
+        <button>Back</button>
+    </a>
 </form>
 </body>
 </html>

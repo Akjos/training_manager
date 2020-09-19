@@ -65,7 +65,7 @@ public class SetDataToStartProgram implements ApplicationRunner {
 
 //        set accept by team leader to test manager
         Optional<UserTraining> userTrainingForManagerToAccept = userTrainingRepository.findById(4L);
-        if(userTrainingForManagerToAccept.isPresent()) {
+        if (userTrainingForManagerToAccept.isPresent()) {
             UserTraining ut = userTrainingForManagerToAccept.get();
             ut.setAcceptByTeamLeader(true);
             userTrainingRepository.save(ut);
@@ -116,7 +116,7 @@ public class SetDataToStartProgram implements ApplicationRunner {
         training3.setActive(true);
         list = new ArrayList<>();
         list.add(departmentRepository.findById(1L).get());
-        training.setDepartments(list);
+        training3.setDepartments(list);
         trainingRepository.save(training3);
 
         Training training4 = new Training();
@@ -130,7 +130,7 @@ public class SetDataToStartProgram implements ApplicationRunner {
         list = new ArrayList<>();
         list.add(departmentRepository.findById(1L).get());
         list.add(departmentRepository.findById(2L).get());
-        training.setDepartments(list);
+        training4.setDepartments(list);
         trainingRepository.save(training4);
     }
 
@@ -145,13 +145,15 @@ public class SetDataToStartProgram implements ApplicationRunner {
     }
 
     private void setUserInDb() {
+        List<User> userList = new ArrayList<>();
         User adminUser = new User();
         adminUser.setUsername("admin");
         adminUser.setEmail("email_admin");
         adminUser.setActive(true);
         adminUser.setPassword(passwordEncoder.encode("pass"));
         adminUser.setRole(roleRepository.getByName("ROLE_ADMIN"));
-        userRepository.save(adminUser);
+        adminUser.setUserDetails(new UserDetails("admin", "admin"));
+        userList.add(adminUser);
 
         User managerUser = new User();
         managerUser.setUsername("manager");
@@ -159,35 +161,40 @@ public class SetDataToStartProgram implements ApplicationRunner {
         managerUser.setActive(true);
         managerUser.setPassword(passwordEncoder.encode("pass"));
         managerUser.setRole(roleRepository.getByName("ROLE_MANAGER"));
-        userRepository.save(managerUser);
+        managerUser.setUserDetails(new UserDetails("Anna", "Nowak"));
+        userList.add(managerUser);
 
         User hrLeader = new User();
-        hrLeader.setUsername("hrLead");
+        hrLeader.setUsername("sowakla");
         hrLeader.setEmail("email_hr_team_leader");
         hrLeader.setActive(true);
         hrLeader.setPassword(passwordEncoder.encode("pass"));
         hrLeader.setRole(roleRepository.getByName("ROLE_TEAM_LEADER"));
         hrLeader.setDepartment(departmentRepository.getByName("Humane resource"));
-        userRepository.save(hrLeader);
+        hrLeader.setUserDetails(new UserDetails("Klaudia", "Sowa"));
+        userList.add(hrLeader);
 
-        User hrworker = new User();
-        hrworker.setUsername("hrworker");
-        hrworker.setEmail("email_hr_worker_1");
-        hrworker.setActive(true);
-        hrworker.setPassword(passwordEncoder.encode("pass"));
-        hrworker.setRole(roleRepository.getByName("ROLE_WORKER"));
-        hrworker.setDepartment(departmentRepository.getByName("Humane resource"));
-        userRepository.save(hrworker);
+        User hrWorker = new User();
+        hrWorker.setUsername("kowarad");
+        hrWorker.setEmail("email_hr_worker_1");
+        hrWorker.setActive(true);
+        hrWorker.setPassword(passwordEncoder.encode("pass"));
+        hrWorker.setRole(roleRepository.getByName("ROLE_WORKER"));
+        hrWorker.setDepartment(departmentRepository.getByName("Humane resource"));
+        hrWorker.setUserDetails(new UserDetails("Radosław", "Kowalski"));
+        userList.add(hrWorker);
 
         User acWorker = new User();
-        acWorker.setUsername("acworker");
+        acWorker.setUsername("sojkprz");
         acWorker.setEmail("email_ac_worker_1");
         acWorker.setActive(true);
         acWorker.setPassword(passwordEncoder.encode("pass"));
         acWorker.setRole(roleRepository.getByName("ROLE_WORKER"));
         acWorker.setDepartment(departmentRepository.getByName("Accounting"));
-        userRepository.save(acWorker);
+        acWorker.setUserDetails(new UserDetails("Przemysław", "Sojka"));
+        userList.add(acWorker);
 
+        userRepository.saveAll(userList);
     }
 
     private void setRoleInDb() {

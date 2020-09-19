@@ -1,6 +1,7 @@
 package pl.akjos.training_manager.domain.model;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
@@ -29,6 +30,11 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "user_details_id")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private UserDetails userDetails;
 
     @ManyToOne
     private Role role;

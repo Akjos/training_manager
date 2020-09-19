@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.akjos.training_manager.utils.SecurityUtils;
 
 import javax.validation.Valid;
@@ -22,9 +19,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/list")
+    @GetMapping("/list_to_edit")
     public String showUserList(Model model) {
-        model.addAttribute("userList", userService.getUserList());
+        model.addAttribute("userActiveList", userService.getUserActiveList());
+        model.addAttribute("userNoActiveList", userService.getUserNoActiveList());
         return "/user/list";
     }
 
@@ -46,8 +44,23 @@ public class UserController {
             return "/user/register";
         }
         userService.registerNewUserToDB(user);
-        return "redirect:/user/list";
+        return "redirect:/user/list_to_edit";
     }
+
+    @GetMapping("/edit/{id}")
+    public String prepareToEdit(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userService.getUserToEdit(id));
+        model.addAttribute("departmentList", userService.getDepartmentList());
+        return "/user/edit";
+    }
+
+    @PostMapping("/edit")
+    public String editUserBySuperior(@ModelAttribute("user") UserRegisterDTO user) {
+        userService.editUserBySuperior(user);
+        return "redirect:/user/list_to_edit";
+    }
+
+
 
 
 }

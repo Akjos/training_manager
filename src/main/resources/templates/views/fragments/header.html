@@ -10,11 +10,11 @@
             <h2>Main menu</h2>
             <p><a th:href="@{/}">Home</a></p>
             <span sec:authorize="hasAnyRole('ADMIN', 'MANAGER', 'TEAM_LEADER')">
-        <p><a th:href="@{/user/register}">Register</a></p>
-        <p><a th:href="@{/training/manage/add}">Add new Training</a></p>
-        <p><a th:href="@{/training/manage/list}">Training To Edit</a></p>
+                <p><a th:href="@{/user/register}">Register</a></p>
+                <p><a th:href="@{/user/list_to_edit}">Manage Users</a></p>
+                <p><a th:href="@{/training/manage/add}">Add new Training</a></p>
+                <p><a th:href="@{/training/manage/list}">Training To Edit</a></p>
             </span>
-            <p><a th:href="@{/user/list}">Show Users</a></p>
             <p sec:authorize="hasAnyRole('ADMIN', 'MANAGER')"><a th:href="@{/department}">Department</a></p>
             <div>
                 <form th:action="@{/logout}" method="post">

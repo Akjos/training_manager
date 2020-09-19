@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>User list</title>
@@ -9,6 +9,66 @@
     <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
 </div>
 <h1>User List</h1>
-<div th:each="user:${userList}"><p th:text="*{user}"/></div>
+<h2>List active user</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Department</th>
+        <th>Option</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user, iter : ${userActiveList}">
+        <td th:text="${iter.count}"></td>
+        <td th:text="*{user.name}"></td>
+        <td th:text="*{user.email}"></td>
+        <td th:text="*{user.role}"></td>
+        <td th:text="*{user.department}"></td>
+        <td>
+            <div>
+                <a th:href="@{/user/edit/{id} (id=*{user.id})}">
+                    <button>Edit</button>
+                </a>
+                <a th:href="@{/user/disable/{id} (id=*{user.id})}">
+                    <button>Disable</button>
+                </a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h2>List inactive user</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Department</th>
+        <th>Option</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user, iter : ${userNoActiveList}">
+        <td th:text="${iter.count}"></td>
+        <td th:text="*{user.name}"></td>
+        <td th:text="*{user.email}"></td>
+        <td th:text="*{user.role}"></td>
+        <td th:text="*{user.department}"></td>
+        <td>
+            <div>
+                <a th:href="@{/user/enable/{id} (id=*{user.id})}">
+                    <button>Enable</button>
+                </a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

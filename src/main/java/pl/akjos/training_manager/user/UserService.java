@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.akjos.training_manager.domain.model.Department;
 import pl.akjos.training_manager.domain.model.User;
+import pl.akjos.training_manager.domain.model.UserDetails;
 import pl.akjos.training_manager.domain.repositories.DepartmentRepository;
 import pl.akjos.training_manager.domain.repositories.RoleRepository;
 import pl.akjos.training_manager.domain.repositories.UserRepository;
@@ -41,6 +42,7 @@ public class UserService {
         user.setEmail(userData.getEmail());
         user.setPassword(passwordEncoder.encode(userData.getPassword()));
         user.setActive(true);
+        user.setUserDetails(new UserDetails(userData.getFirstName(), userData.getLastName()));
         log.debug("Save user: {}", user);
         userRepository.save(user);
     }
@@ -52,24 +54,46 @@ public class UserService {
                 collect(Collectors.toList());
     }
 
-    public List<UserViewDTO> getUserList() {
-        List<User> userList = userRepository.findAll();
-        return userList.stream().
-                map(this::convertUserToUserDTO).
-                collect(Collectors.toList());
-
-    }
-
-    private UserViewDTO convertUserToUserDTO(User e) {
-        log.debug("User: {}", e);
-        UserViewDTO userDTO = new UserViewDTO();
-        userDTO.setUsername(e.getUsername());
-        userDTO.setEmail(e.getEmail());
-        userDTO.setRole(e.getRole().getName());
-        if (e.getDepartment() != null) {
-            userDTO.setDepartment(e.getDepartment().getName());
+    public List<UserViewDTO> getUserActiveList() {
+        String userRole = SecurityUtils.getUserRole();
+        if (userRole.equals("ROLE_TEAM_LEADER")) {
+            String userName = SecurityUtils.getUsername();
+            User loggedUser = userRepository.getByUsername(userName);
+            return userRepository.getActiveUserViewDTOAllByDepartmentId(loggedUser.getDepartment().getId());
+        } else {
+            return userRepository.getActiveUserViewDTOAll();
         }
-        return userDTO;
     }
 
+    public List<UserViewDTO> getUserNoActiveList() {
+        String userRole = SecurityUtils.getUserRole();
+        if (userRole.equals("ROLE_TEAM_LEADER")) {
+            String userName = SecurityUtils.getUsername();
+            User loggedUser = userRepository.getByUsername(userName);
+            return userRepository.getNoActiveUserViewDTOAllByDepartmentId(loggedUser.getDepartment().getId());
+        } else {
+            return userRepository.getNoActiveUserViewDTOAll();
+        }
+    }
+
+    public UserRegisterDTO getUserToEdit(Long id) {
+        return userRepository.getUserRegisterDTOById(id);
+    }
+
+    public void editUserBySuperior(UserRegisterDTO userDTO) {
+        String userRole = SecurityUtils.getUserRole();
+        User user = userRepository.findById(userDTO.getId()).get();
+        if (!userRole.equals("ROLE_TEAM_LEADER")) {
+            user.setRole(roleRepository.getByName(userDTO.getRole()));
+            user.setDepartment(departmentRepository.getByName(userDTO.getDepartment()));
+        }
+        user.getUserDetails().setFirstName(userDTO.getFirstName());
+        user.getUserDetails().setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setUsername(userDTO.getUsername());
+        if (!userDTO.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
+        userRepository.save(user);
+    }
 }
