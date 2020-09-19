@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.akjos.training_manager.utils.SecurityUtils;
 
 import javax.validation.Valid;
 
@@ -24,6 +25,9 @@ public class TrainingController {
 
     @PostMapping("/manage/add")
     public String addTraining(@ModelAttribute("training") @Valid TrainingDTO trainingDTO, BindingResult bindingResult, Model model) {
+        if (SecurityUtils.getUserRole().equals("ROLE_MANAGER") && trainingDTO.getDepartment().isEmpty()) {
+            bindingResult.rejectValue("department", "error.department", "This field can't by empty");
+        }
         if (bindingResult.hasErrors()) {
             model.addAttribute("departmentList", trainingService.getDepartmentList());
             return "/training/manage/add";
@@ -47,6 +51,9 @@ public class TrainingController {
 
     @PostMapping("/manage/edit")
     public String editTraining(@ModelAttribute("training") @Valid TrainingDTO trainingDTO, BindingResult bindingResult, Model model) {
+        if (SecurityUtils.getUserRole().equals("ROLE_MANAGER") && trainingDTO.getDepartment().isEmpty()) {
+            bindingResult.rejectValue("department", "error.department", "This field can't by empty");
+        }
         if (bindingResult.hasErrors()) {
             model.addAttribute("departmentList", trainingService.getDepartmentList());
             return "/training/manage/edit";

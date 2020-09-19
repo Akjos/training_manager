@@ -32,10 +32,7 @@ public class UserService {
             User loggedUser = userRepository.getByUsername(userName);
             log.debug("Logged user: {}", loggedUser);
             user.setRole(roleRepository.getByName("ROLE_WORKER"));
-//            tak czy lepiej wczytać z repo?
             user.setDepartment(loggedUser.getDepartment());
-//            user.setDepartment(departmentRepository.getByName(loggedUser.getDepartment().getName()));
-
         } else {
             user.setRole(roleRepository.getByName(userData.getRole()));
             user.setDepartment(departmentRepository.getByName(userData.getDepartment()));
