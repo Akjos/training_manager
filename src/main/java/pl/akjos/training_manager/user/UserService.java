@@ -96,4 +96,19 @@ public class UserService {
         }
         userRepository.save(user);
     }
+
+    public UserViewDTO getUser(Long id) {
+        return userRepository.getUserView(id);
+    }
+
+    public void disableUser(Long id) {
+        User user = userRepository.findById(id).get();
+        user.setActive(false);
+        userRepository.save(user);
+    }
+
+    public void enableUser(Long id) {
+        User user = userRepository.findById(id).get();
+        user.setActive(true);
+        userRepository.save(user);    }
 }

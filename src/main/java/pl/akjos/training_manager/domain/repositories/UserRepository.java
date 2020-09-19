@@ -25,4 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT new pl.akjos.training_manager.user.UserRegisterDTO(u.id, u.username, u.email, u.userDetails.firstName, u.userDetails.lastName, u.role.name, u.department.name) FROM User u WHERE u.id = :id")
     UserRegisterDTO getUserRegisterDTOById(Long id);
+
+    @Query("SELECT new pl.akjos.training_manager.user.UserViewDTO(u.id, ud.firstName , ud.lastName, u.email, u.role.name, u.department.name ) FROM User u JOIN u.userDetails ud WHERE u.active = TRUE AND u.id = :id")
+    UserViewDTO getUserView(Long id);
 }

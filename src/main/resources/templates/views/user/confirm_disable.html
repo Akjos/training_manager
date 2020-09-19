@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Disable confirm</title>
+</head>
+<body>
+<span th:object="${user}">
+    <span th:text="'Name:' + *{name}"></span><br>
+    <span th:text="'Email:' + *{email}"></span><br>
+    <span th:text="'Department:' + *{department}"></span><br>
+    <span th:text="'Position:' + *{role}"></span><br>
+    <form th:action="@{/user/disable}" th:method="post"><br>
+        <input type="hidden" th:name="userId" th:value="${user.id}">
+        <label>
+            <input th:value="Confirm" th:type="submit"/>
+        </label>
+        <a th:href="@{/user/list_to_edit}">
+            <button>Back</button>
+        </a>
+    </form>
+</span>
+</body>
+</html>

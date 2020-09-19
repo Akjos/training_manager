@@ -60,7 +60,22 @@ public class UserController {
         return "redirect:/user/list_to_edit";
     }
 
+    @GetMapping("/disable/{id}")
+    public String disableUserConfirm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userService.getUser(id));
+        return "/user/confirm_disable";
+    }
 
+    @PostMapping("/disable")
+    public String disableUser(@ModelAttribute("userId") Long id) {
+        userService.disableUser(id);
+        return "redirect:/user/list_to_edit";
+    }
 
+    @PostMapping("/enable")
+    public String enable(@ModelAttribute("userId") Long id) {
+        userService.enableUser(id);
+        return "redirect:/user/list_to_edit";
+    }
 
 }

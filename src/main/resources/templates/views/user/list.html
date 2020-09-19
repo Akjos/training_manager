@@ -61,11 +61,12 @@
         <td th:text="*{user.role}"></td>
         <td th:text="*{user.department}"></td>
         <td>
-            <div>
-                <a th:href="@{/user/enable/{id} (id=*{user.id})}">
-                    <button>Enable</button>
-                </a>
-            </div>
+            <form th:action="@{/user/enable}" th:method="post"><br>
+                <input type="hidden" th:name="userId" th:value="${user.id}">
+                <label>
+                    <input th:value="Enable" th:type="submit"/>
+                </label>
+            </form>
         </td>
     </tr>
     </tbody>
