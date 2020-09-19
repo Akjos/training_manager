@@ -33,7 +33,7 @@
         <p><a th:href="@{/user_training/manage/manager/list_to_accept}">Training to accept</a></p>
         <p><a th:href="@{/user_training/manage/manager/edit_list}">Training to edit</a></p>
     </div>
-    <div sec:authorize="isAuthenticated()">
+    <div sec:authorize="hasAnyRole('TEAM_LEADER', 'WORKER')">
         <h2>Yours training</h2>
         <p><a th:href="@{/training/user/list}">Choose your training</a></p>
         <p><a th:href="@{/user_training/list}">Yours training</a></p>

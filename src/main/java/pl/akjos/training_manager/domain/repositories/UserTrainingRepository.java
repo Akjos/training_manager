@@ -11,6 +11,7 @@ import pl.akjos.training_manager.userTraining.UserTrainingViewToManageListDTO;
 import java.util.List;
 
 public interface UserTrainingRepository extends JpaRepository<UserTraining, Long> {
+    @Query("SELECT COUNT(ut) FROM UserTraining ut WHERE ut.trainingId = :id AND ut.denied = FALSE")
     Integer countAllById(Long id);
 
     @Query("SELECT COUNT(ut) FROM UserTraining ut JOIN Training t ON ut.trainingId = t.id WHERE t.title = :title AND ut.acceptByManager = TRUE")

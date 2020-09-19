@@ -87,7 +87,7 @@ public class TrainingService {
                     .map(this::convertTrainingToDTO)
                     .collect(Collectors.toList());
         } else {
-            return trainingRepository.getTrainingsByDepartmentsAndActiveTrue(loggedUser.getDepartment())
+            return trainingRepository.getTrainingsByDepartmentsSizeOneAndActiveTrue(loggedUser.getDepartment().getId())
                     .stream()
                     .map(this::convertTrainingToDTO)
                     .collect(Collectors.toList());
@@ -96,7 +96,10 @@ public class TrainingService {
 
     public List<TrainingDTO> getTrainingListForUser() {
         User loggedUser = userRepository.getByUsername(SecurityUtils.getUsername());
-        List<TrainingDTO> trainingList = getTrainingList();
+        List<TrainingDTO> trainingList = trainingRepository.getTrainingsByDepartmentsAndActiveTrue(loggedUser.getDepartment())
+                .stream()
+                .map(this::convertTrainingToDTO)
+                .collect(Collectors.toList());
         List<TrainingDTO> trainingsAssignToUser = trainingRepository.getAllTrainingAssignToUserByUserId(loggedUser.getId())
                 .stream()
                 .map(this::convertTrainingToDTO)

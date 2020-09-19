@@ -26,6 +26,7 @@
         <select multiple="multiple" th:field="*{department}">
             <option th:each="departmentName: ${departmentList}" th:text="${departmentName}" th:value="${departmentName}"/>
         </select>
+        <p th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></p>
     </div>
     <br>
     <input th:value="Add" type="submit"/>

@@ -28,6 +28,7 @@ public class TrainingDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataStart;
 
+    @NotEmpty
     private List<String> department;
 
 }

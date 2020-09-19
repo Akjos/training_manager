@@ -16,4 +16,6 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
     @Query("SELECT t FROM Training t ,UserTraining ut WHERE ut.userId=:id AND t.id = ut.trainingId")
     List<Training> getAllTrainingAssignToUserByUserId(Long id);
 
+    @Query("SELECT t FROM Training t JOIN t.departments d WHERE SIZE(t.departments) = 1 AND d.id = :id")
+    List<Training> getTrainingsByDepartmentsSizeOneAndActiveTrue(Long id);
 }
