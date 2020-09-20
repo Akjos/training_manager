@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Details training</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
 <h1>Details</h1>
+<div class="div-cont">
 <span th:object="${training}">
     <span th:text="'Title: ' + *{title}"></span><br>
     <span th:text="'Descriprion ' + *{description}"></span><br>
@@ -16,11 +18,12 @@
     <span th:text="'Menager accept: ' + (*{acceptByManager} ? 'Yes' : 'No')"></span><br>
     <span th:text="'Denied: ' + (*{denied} ? 'Yes' : 'No')"></span><br>
     <a th:href="@{/user_training/delete/{id} (id=*{id})}">
-        <button>Sign of</button>
+        Sign of
     </a>
     <a th:href="@{/user_training/list}">
-        <button>Back</button>
+        Back
     </a>
 </span>
+</div>
 </body>
 </html>

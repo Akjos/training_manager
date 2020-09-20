@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Training List</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <div>
@@ -31,16 +32,12 @@
         <td th:text="*{training.trainingDays}"></td>
         <td th:text="*{training.quantityAvailable}"></td>
         <td>
-            <div>
-                <a th:href="@{/training/manage/edit/{id} (id=*{training.id})}">
-                    <button>Edit</button>
-                </a>
-            </div>
-            <div>
-                <a th:href="@{/training/manage/disable/{id} (id=*{training.id})}">
-                    <button>Disable</button>
-                </a>
-            </div>
+            <a th:href="@{/training/manage/edit/{id} (id=*{training.id})}">
+                Edit
+            </a>
+            <a th:href="@{/training/manage/disable/{id} (id=*{training.id})}">
+                Disable
+            </a>
         </td>
     </tr>
     </tbody>

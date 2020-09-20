@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <div>
@@ -10,11 +11,16 @@
 </div>
 <h1>Register</h1>
 <form action="#" th:action="@{/user/register}" th:object="${user}" method="post">
-    User login: <input type="text" th:field="*{username}"/><p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"/><br>
-    User first name: <input type="text" th:field="*{firstName}"/><p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"/><br>
-    User last name: <input type="text" th:field="*{lastName}"/><p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"/><br>
-    Email: <input type="text" th:field="*{email}"/><p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/><br>
-    Password: <input type="text" th:type="password" th:field="*{password}"/><p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/><br>
+    User login: <input type="text" th:field="*{username}"/>
+    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"/><br>
+    User first name: <input type="text" th:field="*{firstName}"/>
+    <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"/><br>
+    User last name: <input type="text" th:field="*{lastName}"/>
+    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"/><br>
+    Email: <input type="text" th:field="*{email}"/>
+    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/><br>
+    Password: <input type="text" th:type="password" th:field="*{password}"/>
+    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/><br>
     <div sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
         Position:<br>
         <select th:field="*{role}">

@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Training awaiting approval</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
 
-Training awaiting for accept:
+<h1>Training awaiting for accept:</h1>
 <table>
     <thead>
     <tr>
@@ -31,7 +32,7 @@ Training awaiting for accept:
         <td>
             <div>
                 <a th:href="@{/user_training/manage/details_to_add/{id} (id=*{training.id})}">
-                    <button>Manage</button>
+                    Manage
                 </a>
             </div>
         </td>

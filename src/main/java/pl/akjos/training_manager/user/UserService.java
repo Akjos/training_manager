@@ -110,5 +110,6 @@ public class UserService {
     public void enableUser(Long id) {
         User user = userRepository.findById(id).get();
         user.setActive(true);
-        userRepository.save(user);    }
+        userRepository.save(user);
+    }
 }

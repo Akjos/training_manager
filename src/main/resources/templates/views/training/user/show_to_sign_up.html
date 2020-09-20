@@ -3,27 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Show training to sign up</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <h1>Training Details:</h1>
-
-<form th:action="@{/user_training/add}" th:method="post"  th:object="${training}">
-<span>
-    <span th:text="'Title: ' + *{title}"></span><br>
-    <span th:text="'Descriprion: ' + *{description}"></span><br>
-    <span th:text="'Training start: ' + *{dataStart}"></span><br>
-    <span th:text="'Day of training: ' + *{trainingDays}"></span><br>
-    <span th:text="'Sign up ' + ${signUp} + ' for ' + *{quantityAvailable} + ' places'"></span><br>
-    <input th:type="hidden" th:field="*{id}"/>
-    <label>
-        <input th:value="Yes" th:type="submit"/>
-    </label>
-</span>
-</form>
-<br>
-<a th:href="@{/training/user/list}">
-    <button>No</button>
-</a>
-
+<div class="div-cont">
+    <form th:action="@{/user_training/add}" th:method="post" th:object="${training}">
+    <span>
+        <span th:text="'Title: ' + *{title}"></span><br>
+        <span th:text="'Descriprion: ' + *{description}"></span><br>
+        <span th:text="'Training start: ' + *{dataStart}"></span><br>
+        <span th:text="'Day of training: ' + *{trainingDays}"></span><br>
+        <span th:text="'Sign up ' + ${signUp} + ' for ' + *{quantityAvailable} + ' places'"></span><br>
+        <span>
+            <input th:type="hidden" th:field="*{id}"/>
+            <input th:value="Yes" th:type="submit"/>
+            <a th:href="@{/training/user/list}">No</a>
+        </span>
+    </span>
+    </form>
+</div>
 </body>
 </html>

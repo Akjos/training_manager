@@ -3,40 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>User training list</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 
 <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
+<div th:if="${not #lists.isEmpty(trainingList)}">
+    <h1>Status your training:</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Index</th>
+            <th>Title</th>
+            <th>Accept by Leader</th>
+            <th>Accept by Manager</th>
+            <th>Denied</th>
+            <th>Option</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="training, iter : ${trainingList}">
+            <td th:text="${iter.count}"></td>
+            <td th:text="*{training.title}"></td>
+            <td th:text="*{training.acceptByTeamLeader} ? 'Yes' : 'No'"></td>
+            <td th:text="*{training.acceptByManager} ? 'Yes' : 'No'"></td>
+            <td th:text="*{training.denied} ? 'Yes' : 'No'"></td>
 
-<h1>Status your training:</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Index</th>
-        <th>Title</th>
-        <th>Accept by Leader</th>
-        <th>Accept by Manager</th>
-        <th>Denied</th>
-        <th>Option</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="training, iter : ${trainingList}">
-        <td th:text="${iter.count}"></td>
-        <td th:text="*{training.title}"></td>
-        <td th:text="*{training.acceptByTeamLeader} ? 'Yes' : 'No'"></td>
-        <td th:text="*{training.acceptByManager} ? 'Yes' : 'No'"></td>
-        <td th:text="*{training.denied} ? 'Yes' : 'No'"></td>
-
-        <td>
-            <div>
-                <a th:href="@{/user_training/details/{id} (id=*{training.userTrainingId})}">
-                    <button>Show details</button>
-                </a>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
+            <td>
+                <div>
+                    <a th:href="@{/user_training/details/{id} (id=*{training.userTrainingId})}">
+                        Show details
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<h1 th:if="${trainingList.isEmpty()}">You don't have any training</h1>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Training</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <h1>Edit training</h1>
@@ -30,8 +31,8 @@
     </div>
     <br>
     <input th:value="Update" type="submit"/>
-    <a th:href="@{/training/management/list}">
-        <button>Cancel</button>
+    <a th:href="@{/training/manage/list}">
+        Cancel
     </a>
 </form>
 </body>

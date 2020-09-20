@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Training awaiting approval</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
@@ -18,67 +19,71 @@
         <input th:value="Show" type="submit">
     </form>
 </div>
-<h2>List accept training</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Index</th>
-        <th>Username</th>
-        <th>Title</th>
-        <th>Price</th>
-        <th>Training Days</th>
-        <th>Starting date</th>
-        <th>Option</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="training, iter : ${acceptList}">
-        <td th:text="${iter.count}"></td>
-        <td th:text="*{training.userName}"></td>
-        <td th:text="*{training.title}"></td>
-        <td th:text="*{training.price}"></td>
-        <td th:text="*{training.trainingDays}"></td>
-        <td th:text="*{training.dataStart}"></td>
-        <td>
-            <div>
-                <a th:href="@{/user_training/manage/details_to_edit/{id} (id=*{training.id})}">
-                    <button>Manage</button>
-                </a>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<h2>List denied training</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Index</th>
-        <th>Username</th>
-        <th>Title</th>
-        <th>Price</th>
-        <th>Training Days</th>
-        <th>Starting date</th>
-        <th>Option</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="training, iter : ${deniedList}">
-        <td th:text="${iter.count}"></td>
-        <td th:text="*{training.userName}"></td>
-        <td th:text="*{training.title}"></td>
-        <td th:text="*{training.price}"></td>
-        <td th:text="*{training.trainingDays}"></td>
-        <td th:text="*{training.dataStart}"></td>
-        <td>
-            <div>
-                <a th:href="@{/user_training/manage/details_to_edit/{id} (id=*{training.id})}">
-                    <button>Manage</button>
-                </a>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div th:if="${!acceptList.isEmpty()}">
+    <h2>List accept training</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Index</th>
+            <th>Username</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Training Days</th>
+            <th>Starting date</th>
+            <th>Option</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="training, iter : ${acceptList}">
+            <td th:text="${iter.count}"></td>
+            <td th:text="*{training.userName}"></td>
+            <td th:text="*{training.title}"></td>
+            <td th:text="*{training.price}"></td>
+            <td th:text="*{training.trainingDays}"></td>
+            <td th:text="*{training.dataStart}"></td>
+            <td>
+                <div>
+                    <a th:href="@{/user_training/manage/details_to_edit/{id} (id=*{training.id})}">
+                        Manage
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:if="${!deniedList.isEmpty()}">
+    <h2>List denied training</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Index</th>
+            <th>Username</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Training Days</th>
+            <th>Starting date</th>
+            <th>Option</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="training, iter : ${deniedList}">
+            <td th:text="${iter.count}"></td>
+            <td th:text="*{training.userName}"></td>
+            <td th:text="*{training.title}"></td>
+            <td th:text="*{training.price}"></td>
+            <td th:text="*{training.trainingDays}"></td>
+            <td th:text="*{training.dataStart}"></td>
+            <td>
+                <div>
+                    <a th:href="@{/user_training/manage/details_to_edit/{id} (id=*{training.id})}">
+                        Manage
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

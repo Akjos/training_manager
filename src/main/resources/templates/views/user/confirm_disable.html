@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Disable confirm</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
+<h1>Confirm to disable user</h1>
 <span th:object="${user}">
     <span th:text="'Name:' + *{name}"></span><br>
     <span th:text="'Email:' + *{email}"></span><br>
     <span th:text="'Department:' + *{department}"></span><br>
     <span th:text="'Position:' + *{role}"></span><br>
     <form th:action="@{/user/disable}" th:method="post"><br>
+        <span>
         <input type="hidden" th:name="userId" th:value="${user.id}">
-        <label>
-            <input th:value="Confirm" th:type="submit"/>
-        </label>
+        <input th:value="Confirm" th:type="submit"/>
         <a th:href="@{/user/list_to_edit}">
-            <button>Back</button>
+            Back
         </a>
+        </span>
     </form>
 </span>
 </body>

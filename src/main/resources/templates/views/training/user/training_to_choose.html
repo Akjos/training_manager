@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
@@ -27,7 +28,7 @@
         <td>
             <div>
                 <a th:href="@{/training/user/showToSignUp/{id} (id=*{training.id})}">
-                    <button>Show</button>
+                    Show
                 </a>
             </div>
         </td>

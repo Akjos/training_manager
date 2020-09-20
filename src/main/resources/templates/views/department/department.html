@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Department</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" />
 </head>
 <body>
 <div>
@@ -15,6 +16,6 @@
     <input th:value="Save" type="submit"/>
 </form>
 
-<p th:each="dep: ${departmentList}" th:text="*{dep.name}"/>
+<p th:each="dep, index: ${departmentList}" th:text="${index.count} + ': ' + *{dep.name}"/>
 </body>
 </html>

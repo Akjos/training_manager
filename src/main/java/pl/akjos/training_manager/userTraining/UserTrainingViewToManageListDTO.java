@@ -21,9 +21,9 @@ public class UserTrainingViewToManageListDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataStart;
 
-    public UserTrainingViewToManageListDTO(Long id, String userName, String title, Double price, Integer trainingDays, LocalDate dataStart) {
+    public UserTrainingViewToManageListDTO(Long id, String firstName, String lastName, String title, Double price, Integer trainingDays, LocalDate dataStart) {
         this.id = id;
-        this.userName = userName;
+        this.userName = firstName + " " + lastName;
         this.title = title;
         this.price = price;
         this.trainingDays = trainingDays;

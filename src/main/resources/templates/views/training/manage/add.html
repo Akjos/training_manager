@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Training</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <div>
@@ -21,18 +22,16 @@
     <p th:if="${#fields.hasErrors('dataStart')}" th:errors="*{dataStart}"/>
 
     <br>
-    <div sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+    <span sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
         Department:<br>
         <select multiple="multiple" th:field="*{department}">
             <option th:each="departmentName: ${departmentList}" th:text="${departmentName}" th:value="${departmentName}"/>
         </select>
         <p th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></p>
-    </div>
+    </span>
     <br>
     <input th:value="Add" type="submit"/>
-    <a th:href="@{/training/management/list}">
-        <button>Cancel</button>
-    </a>
+    <a th:href="@{/training/management/list}">Cancel</a>
 </form>
 </body>
 </html>

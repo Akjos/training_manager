@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames ={"user_id", "training_id"}) ,name = "user_training")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "training_id"}), name = "user_training")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -43,8 +43,8 @@ public class UserTraining {
 
     @PrePersist
     public void prePersist() {
-        acceptByTeamLeader =false;
-        acceptByManager =false;
-        denied =false;
+        acceptByTeamLeader = false;
+        acceptByManager = false;
+        denied = false;
     }
 }

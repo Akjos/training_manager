@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Details to manage</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
 
 <h1>Details training:</h1>
+<div class="div-cont">
 <span th:object="${training}">
     <span th:text="'Title: ' + *{title}"></span><br>
     <span th:text="'Descriprion ' + *{description}"></span><br>
@@ -29,7 +31,7 @@
             <input th:value="Denied" th:type="submit"/>
         </label>
     </form>
-
 </span>
+</div>
 </body>
 </html>

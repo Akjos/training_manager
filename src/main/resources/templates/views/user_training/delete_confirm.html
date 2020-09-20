@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign of confirm</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <h1>Confirm if you want sign of</h1>
+<br>
 <form th:action="@{/user_training/delete}" th:method="post" th:object="${userTrainingId}">
     <input type="hidden" th:name="userTrainingId" th:value="${userTrainingId}"/>
-    <label>
-        <input th:value="Confirm" th:type="submit"/>
-    </label>
+    <input th:value="Confirm" th:type="submit"/>
     <a th:href="@{/user_training/list}">
-        <button>Back</button>
+        Back
     </a>
 </form>
 

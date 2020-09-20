@@ -3,73 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>User list</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <div>
     <!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
 </div>
 <h1>User List</h1>
-<h2>List active user</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Index</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Department</th>
-        <th>Option</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user, iter : ${userActiveList}">
-        <td th:text="${iter.count}"></td>
-        <td th:text="*{user.name}"></td>
-        <td th:text="*{user.email}"></td>
-        <td th:text="*{user.role}"></td>
-        <td th:text="*{user.department}"></td>
-        <td>
-            <div>
-                <a th:href="@{/user/edit/{id} (id=*{user.id})}">
-                    <button>Edit</button>
-                </a>
-                <a th:href="@{/user/disable/{id} (id=*{user.id})}">
-                    <button>Disable</button>
-                </a>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<h2>List inactive user</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Index</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Department</th>
-        <th>Option</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user, iter : ${userNoActiveList}">
-        <td th:text="${iter.count}"></td>
-        <td th:text="*{user.name}"></td>
-        <td th:text="*{user.email}"></td>
-        <td th:text="*{user.role}"></td>
-        <td th:text="*{user.department}"></td>
-        <td>
-            <form th:action="@{/user/enable}" th:method="post"><br>
-                <input type="hidden" th:name="userId" th:value="${user.id}">
-                <label>
+<div th:if="${!userActiveList.isEmpty()}">
+    <h2>List active user</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Index</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Department</th>
+            <th>Option</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user, iter : ${userActiveList}">
+            <td th:text="${iter.count}"></td>
+            <td th:text="*{user.name}"></td>
+            <td th:text="*{user.email}"></td>
+            <td th:text="*{user.role}"></td>
+            <td th:text="*{user.department}"></td>
+            <td>
+                <div>
+                    <a th:href="@{/user/edit/{id} (id=*{user.id})}">
+                        Edit
+                    </a>
+                    <a th:href="@{/user/disable/{id} (id=*{user.id})}">
+                        Disable
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:if="${!userNoActiveList.isEmpty()}">
+    <h2>List inactive user</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Index</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Department</th>
+            <th>Option</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user, iter : ${userNoActiveList}">
+            <td th:text="${iter.count}"></td>
+            <td th:text="*{user.name}"></td>
+            <td th:text="*{user.email}"></td>
+            <td th:text="*{user.role}"></td>
+            <td th:text="*{user.department}"></td>
+            <td>
+                <form th:action="@{/user/enable}" th:method="post"><br>
+                    <input type="hidden" th:name="userId" th:value="${user.id}">
                     <input th:value="Enable" th:type="submit"/>
-                </label>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
