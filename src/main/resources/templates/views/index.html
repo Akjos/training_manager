@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Main page</title>
-    <link th:href="@{/styles/main.css}" rel="stylesheet" />
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <div>
@@ -16,6 +16,7 @@
 <p>Login hr leader: sowakla Password: pass</p>
 <p>Login hr worker: kowarad Password: pass</p>
 <p>Login accounting worker: sojkprz Password: pass</p>
+<br>
 
 <form sec:authorize="!isAuthenticated()" th:action method="post">
     <label>Username:<br>
@@ -24,7 +25,11 @@
     <label> Password:<br>
         <input th:type="password" name="password"/>
     </label><br>
+    <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
     <input type="submit" value="Sign In"/>
 </form>
+
 </body>
 </html>
