@@ -20,7 +20,7 @@
             <a th:href="@{/user_training/manage/leader/list_to_accept}">Training to accept</a>
             <a th:href="@{/user_training/manage/leader/edit_list}">Training to edit</a>
         </span>
-        <span sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+        <span sec:authorize="hasAnyRole('MANAGER')">
             <a th:href="@{/user_training/manage/manager/list_to_accept}">Training to accept</a>
             <a th:href="@{/user_training/manage/manager/edit_list}">Training to edit</a>
         </span>
