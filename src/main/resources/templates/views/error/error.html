@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Page</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/header.html :: mainMenu"></th:block> /*/-->
+
+<h2 th:text="${errorMessage}"></h2>
+</body>
+</html>
