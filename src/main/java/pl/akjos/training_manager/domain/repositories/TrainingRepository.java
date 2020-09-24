@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface TrainingRepository extends JpaRepository<Training, Long> {
 
+    Training getTrainingByTitle(String title);
+
     List<Training> getTrainingsByDepartmentsAndActiveTrue(Department department);
 
     List<Training> getAllByActiveTrue();

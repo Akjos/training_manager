@@ -30,6 +30,11 @@
     </div>
     <input type="submit" value="Sign In"/>
 </form>
+<br>
+<div sec:authorize="!isAuthenticated()">
+    <p>Restore database to default</p>
+    <a th:href="@{/restart_db}">Restart</a>
+</div>
 
 </body>
 </html>
