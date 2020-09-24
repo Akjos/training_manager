@@ -17,6 +17,9 @@ public interface UserTrainingRepository extends JpaRepository<UserTraining, Long
     @Query("SELECT COUNT(ut) FROM UserTraining ut JOIN Training t ON ut.trainingId = t.id WHERE t.title = :title AND ut.acceptByManager = TRUE")
     Integer countAllByTrainingTitleAndAcceptByManager(String title);
 
+    @Query("SELECT ut.user.department.id FROM UserTraining ut WHERE ut.id = :id")
+    Long getDepartmentIdById(Long id);
+
     @Query(value = "SELECT new pl.akjos.training_manager.userTraining.UserTrainingListDTO(ut.id, t.title, ut.acceptByTeamLeader, ut.acceptByManager, ut.denied) FROM UserTraining ut LEFT JOIN Training t ON t.id = ut.trainingId WHERE ut.userId =:userId")
     List<UserTrainingListDTO> getAllUserTrainingListDTOByUserId(Long userId);
 

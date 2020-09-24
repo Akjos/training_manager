@@ -5,11 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.akjos.training_manager.department.DepartmentDTO;
 import pl.akjos.training_manager.department.DepartmentService;
 import pl.akjos.training_manager.training.TrainingDTO;
 import pl.akjos.training_manager.utils.SecurityUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -69,32 +70,28 @@ public class UserTrainingController {
 //    endpoint for manager to manage userTraining
 
     @GetMapping("/manage/manager/list_to_accept")
-    public String prepareTrainingToAcceptListForManager(Model model) {
-        model.addAttribute("trainingList", new ArrayList<UserTrainingViewToManageListDTO>());
-        model.addAttribute("departmentList", departmentService.getDepartmentList());
-        return "/user_training/manage/manager/to_accept_list";
-    }
-
-    @PostMapping("/manage/manager/list_to_accept")
-    public String prepareTrainingToAcceptWithChooseDepartmentListForManager(@ModelAttribute("departmentId") Long departmentId, Model model) {
-        model.addAttribute("trainingList", userTrainingService.getTrainingListToAcceptForManager(departmentId));
-        model.addAttribute("departmentList", departmentService.getDepartmentList());
+    public String prepareTrainingToAcceptListForManager(@RequestParam(value = "departmentId", required = false) Long departmentId, Model model) {
+        List<DepartmentDTO> departmentList = departmentService.getDepartmentList();
+        model.addAttribute("departmentList", departmentList);
+        if (departmentId != null) {
+            model.addAttribute("trainingList", userTrainingService.getTrainingListToAcceptForManager(departmentId));
+        } else {
+            model.addAttribute("trainingList", userTrainingService.getTrainingListToAcceptForManager(departmentList.get(0).getId()));
+        }
         return "/user_training/manage/manager/to_accept_list";
     }
 
     @GetMapping("/manage/manager/edit_list")
-    public String prepareTrainingToEditListForManager(Model model) {
-        model.addAttribute("acceptList", new ArrayList<UserTrainingViewToManageListDTO>());
-        model.addAttribute("deniedList", new ArrayList<UserTrainingViewToManageListDTO>());
-        model.addAttribute("departmentList", departmentService.getDepartmentList());
-        return "/user_training/manage/manager/edit_list";
-    }
-
-    @PostMapping("/manage/manager/edit_list")
-    public String prepareTrainingToEditWithChooseDepartmentListForManager(@ModelAttribute("departmentId") Long departmentId, Model model) {
-        model.addAttribute("acceptList", userTrainingService.getAcceptUserTrainingListForManager(departmentId));
-        model.addAttribute("deniedList", userTrainingService.getDeniedUserTrainingListForManager(departmentId));
-        model.addAttribute("departmentList", departmentService.getDepartmentList());
+    public String prepareTrainingToEditListForManager(@RequestParam(value = "departmentId", required = false) Long departmentId, Model model) {
+        List<DepartmentDTO> departmentList = departmentService.getDepartmentList();
+        model.addAttribute("departmentList", departmentList);
+        if (departmentId != null) {
+            model.addAttribute("acceptList", userTrainingService.getAcceptUserTrainingListForManager(departmentId));
+            model.addAttribute("deniedList", userTrainingService.getDeniedUserTrainingListForManager(departmentId));
+        } else {
+            model.addAttribute("acceptList", userTrainingService.getAcceptUserTrainingListForManager(departmentList.get(0).getId()));
+            model.addAttribute("deniedList", userTrainingService.getDeniedUserTrainingListForManager(departmentList.get(0).getId()));
+        }
         return "/user_training/manage/manager/edit_list";
     }
 
@@ -114,7 +111,8 @@ public class UserTrainingController {
         if (SecurityUtils.getUserRole().equals("ROLE_TEAM_LEADER")) {
             return "redirect:/user_training/manage/leader/list_to_accept";
         } else {
-            return "redirect:/user_training/manage/manager/list_to_accept";
+            Long departmentId = userTrainingService.getDepartmentIdByUserTrainingId(id);
+            return "redirect:/user_training/manage/manager/list_to_accept?departmentId=" + departmentId;
         }
     }
 
@@ -124,7 +122,8 @@ public class UserTrainingController {
         if (SecurityUtils.getUserRole().equals("ROLE_TEAM_LEADER")) {
             return "redirect:/user_training/manage/leader/list_to_accept";
         } else {
-            return "redirect:/user_training/manage/manager/list_to_accept";
+            Long departmentId = userTrainingService.getDepartmentIdByUserTrainingId(id);
+            return "redirect:/user_training/manage/manager/list_to_accept?departmentId=" + departmentId;
         }
     }
 
@@ -142,7 +141,8 @@ public class UserTrainingController {
         if (SecurityUtils.getUserRole().equals("ROLE_TEAM_LEADER")) {
             return "redirect:/user_training/manage/leader/edit_list";
         } else {
-            return "redirect:/user_training/manage/manager/edit_list";
+            Long departmentId = userTrainingService.getDepartmentIdByUserTrainingId(id);
+            return "redirect:/user_training/manage/manager/edit_list?departmentId=" + departmentId;
         }
     }
 
@@ -152,7 +152,8 @@ public class UserTrainingController {
         if (SecurityUtils.getUserRole().equals("ROLE_TEAM_LEADER")) {
             return "redirect:/user_training/manage/leader/edit_list";
         } else {
-            return "redirect:/user_training/manage/manager/edit_list";
+            Long departmentId = userTrainingService.getDepartmentIdByUserTrainingId(id);
+            return "redirect:/user_training/manage/manager/edit_list?departmentId=" + departmentId;
         }
     }
 

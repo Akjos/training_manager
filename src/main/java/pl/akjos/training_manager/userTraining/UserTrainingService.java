@@ -101,4 +101,8 @@ public class UserTrainingService {
     public List<UserTrainingViewToManageListDTO> getDeniedUserTrainingListForManager(Long departmentId) {
         return userTrainingRepository.getAllUserTrainingDeniedToEditForManagerByDepartmentId(departmentId);
     }
+
+    public Long getDepartmentIdByUserTrainingId(Long id) {
+        return userTrainingRepository.getDepartmentIdById(id);
+    }
 }
