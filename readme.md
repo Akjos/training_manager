@@ -1,16 +1,16 @@
-#Training Manager
+# Training Manager
 
 Application created for the final project of the Java Web Developer course in Coders Lab school.
 The application is for manage trainings in the company.
 
-##Features
+## Features
 
-####User:
+#### User:
 - Login
 - Sign up/out for training for his department
 - Check your training status
 
-####Team Leader
+#### Team Leader
 - Login
 - Sign up/out for training for his department
 - Check your training status
@@ -18,14 +18,14 @@ The application is for manage trainings in the company.
 - CRUD training for his department
 - Accept/Reject the request for employee training from your department
 
-####Manager
+#### Manager
 - Login
 - CRUD department
 - CRUD Team Leader/Worker and assigned to select department 
 - CRUD training and assigned to select departments
 - Accept/Reject the request for employee training after accept by team leader
 
-##Technologies
+## Technologies
 
 -Spring boot 
 
